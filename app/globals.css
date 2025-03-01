@@ -20,3 +20,22 @@ body {
   background: var(--background);
   font-family: "Mali", serif;
 }
+
+.scrollable {
+  overflow-x: auto;
+}
+
+.scrollable::-webkit-scrollbar {
+  width: 4px;  /* ความกว้างของ scrollbar */
+}
+
+.scrollable::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.3); /* สีของส่วนที่เลื่อน */
+  border-radius: 10px;
+}
+
+.scrollable::-webkit-scrollbar-track {
+  background: #f1f1f1;  /* สีของแทร็ค (พื้นหลังของ scrollbar) */
+}
+
+
