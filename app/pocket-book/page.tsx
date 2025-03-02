@@ -1,9 +1,13 @@
-import {Pocket_book} from "./pocket-book"
-export default function Pocket(){
-    return(
+import MenuBar from "../component/Menu"
+import Nav from "../component/Navbar"
+import { Pocket_book } from "./pocket-book"
+export default function Pocket() {
+    return (
         <div className="bg-[#FAF9F6] h-screen">
-        <Pocket_book/>
-        
+            <Nav />
+            <Pocket_book />
+            <MenuBar />
+
         </div>
     )
 }

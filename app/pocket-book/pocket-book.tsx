@@ -8,14 +8,11 @@ import PaymentsIcon from '@mui/icons-material/Payments';
 import SavingsIcon from '@mui/icons-material/Savings';
 import AccountBalanceRoundedIcon from '@mui/icons-material/AccountBalanceRounded';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import Nav from "../component/Navbar";
-import MenuBar from "../component/Menu";
 export function Pocket_book() {
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const [isPopuppocketOpen, setIsPopuppocketOpen] = useState(false);
     return (
         <>
-            <Nav />
             <div className="p-4 bg-[#FAF9F6] flex flex-col gap-4 items-center mx-auto pb-[13vh] overflow-y-auto max-h-[calc(100vh-80px)]">
                 {/* ยอดคงเหลือ */}
                 <div className="bg-[#F6F4EC] rounded-[30px] p-4 pl-6 border border-[#4C3228]/[12%] w-full max-w-md shadow-sm">
@@ -140,7 +137,6 @@ export function Pocket_book() {
 
 
             </div>
-            <MenuBar />
         </>
     )
 }
