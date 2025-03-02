@@ -20,7 +20,7 @@ export default function Login() {
         name,
         password,
       }).then(res => {
-        if (1) {
+        if (res.status === 200) {
           console.log("first")
           const data = res.data;
           console.log("Login successful:", data);
@@ -44,11 +44,16 @@ export default function Login() {
         }
       })
     } catch (error) {
-      console.log("An error occurred:", error);
+      let errorMessage = 'An unknown error occurred';
+      if (e instanceof Error) {
+        errorMessage = e.message;
+      } else if (typeof e === 'string') {
+        errorMessage = e;
+      }
       Swal.fire({
         icon: 'error',
         title: 'An Error Occurred',
-        text: 'Please try again later.',
+        text: errorMessage,
       });
     }
   };

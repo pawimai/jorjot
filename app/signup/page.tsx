@@ -16,16 +16,6 @@ export default function Signup() {
     const handleRegister = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        if (password !== confirmPassword) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Password Mismatch',
-                text: 'Passwords do not match.',
-                showConfirmButton: true,
-            });
-            return;
-        }
-
         try {
             await axios.post(config.api_path + "/auth/register", {
                 name,
@@ -45,16 +35,22 @@ export default function Signup() {
                     }).then(() => {
                         router.push('/');
                     });
-                } 
+                }
             }).catch(err => {
                 throw err.response.data
             })
 
-        } catch (e: any) {
+        } catch (e: unknown) {
+            let errorMessage = 'An unknown error occurred';
+            if (e instanceof Error) {
+                errorMessage = e.message;
+            } else if (typeof e === 'string') {
+                errorMessage = e;
+            }
             Swal.fire({
                 icon: 'error',
                 title: 'An Error Occurred',
-                text: e.message,
+                text: errorMessage,
             });
         }
     };
