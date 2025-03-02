@@ -50,7 +50,7 @@ export default function ChangePassword() {
                         timer: 2000,
                         showConfirmButton: true,
                     }).then(() => {
-                        router.push('/profile/changePassword');
+                        router.push('/profile');
                     });
                 }
             }).catch(err => {

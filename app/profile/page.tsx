@@ -95,9 +95,10 @@ export default function Profile() {
                     <InfoOutlinedIcon className="ml-2" />
                     <p className="text-[0.9rem] md:text-[1rem] font-bold">เกี่ยวกับเรา</p>
                 </a>
-                <div className="flex items-center text-[#342A0F] bg-[#F6F4EC] border-[#8D6E63]/[12%] border-2 rounded-[30px] text-center mt-3 w-[90vw] sm:w-[90vw] md:max-w-[60vw] h-[7vh] p-4 gap-4">
+                <a className="flex items-center text-[#342A0F] bg-[#F6F4EC] border-[#8D6E63]/[12%] border-2 rounded-[30px] text-center mt-3 w-[90vw] sm:w-[90vw] md:max-w-[60vw] h-[7vh] p-4 gap-4"
+                   href="/">
                     <LogoutOutlinedIcon className="ml-2 text-[#AB502D]" /><p className="text-[0.9rem] md:text-[1rem] font-bold" >ออกจากระบบ</p>
-                </div>
+                </a>
             </div>
         </div>
     );
