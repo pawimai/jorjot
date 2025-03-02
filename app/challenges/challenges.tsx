@@ -5,7 +5,7 @@ export default function Challenges() {
     return (
         // <div className="flex flex-col justify-center items-center mx-auto pb-[13vh] overflow-y-auto max-h-[calc(100vh-80px)]">
         //     {/* กล่องแรก */}
-        //     <div className="flex justify-center gap-4 items-center text-[#342A0F] font-bold h-[10vh] w-[50vw] sm:w-[30vw] md:max-w-[25vw] bg-[#FFF1AC] border-[#4C3228] border-2 border-opacity-61 rounded-[30px] text-center mt-3">
+        //     <div className="flex justify-center gap-4 items-center text-[#342A0F] font-bold h-[10vh] w-[50vw] sm:w-[30vw] md:max-w-[25vw] bg-[#FFF1AC] border-[#4C3228]/[61%] border-2 rounded-[30px] text-center mt-3">
         //         <Image
         //             src="/babyJor.jpg"
         //             width={50}
@@ -20,7 +20,7 @@ export default function Challenges() {
         //     </div>
 
         //     {/* กล่องที่สอง */}
-        //     <div className="flex flex-col justify-center items-center text-[#342A0F] font-bold h-[37vh] w-[85vw] sm:w-[50vw] md:max-w-[50vw] bg-[#F6F4EC] border-[#4C3228] border-2 border-opacity-61 rounded-[30px] text-center mt-3">
+        //     <div className="flex flex-col justify-center items-center text-[#342A0F] font-bold h-[37vh] w-[85vw] sm:w-[50vw] md:max-w-[50vw] bg-[#F6F4EC] border-[#4C3228] border-2 rounded-[30px] text-center mt-3">
         //         <p className="text-[0.8rem]">
         //             ชาเลนจ์ 3 เดือน สำหรับเบบี้ลิงจ๋อ
         //         </p>
@@ -57,7 +57,7 @@ export default function Challenges() {
         //     <p className="text-[0.8rem] mt-2 font-bold" >สำเร็จชาเลนจ์เพื่อเลื่อนขั้นเป็น</p>
 
         //     {/* กล่องที่สาม */}
-        //     <div className="flex justify-center gap-4 items-center text-[#342A0F] font-bold h-[10vh] w-[50vw] sm:w-[30vw] md:max-w-[25vw] bg-[#F6F4EC] border-[#8D6E63] border-2 border-opacity-61 rounded-[30px] text-center mt-2">
+        //     <div className="flex justify-center gap-4 items-center text-[#342A0F] font-bold h-[10vh] w-[50vw] sm:w-[30vw] md:max-w-[25vw] bg-[#F6F4EC] border-[#8D6E63]/[61%] border-2 rounded-[30px] text-center mt-2">
         //         <Image
         //             src="/jorL2.jpg"
         //             width={50}
@@ -76,7 +76,7 @@ export default function Challenges() {
         // </div>
 
         <div className="flex flex-col justify-center items-center mx-auto pb-[13vh] overflow-y-auto max-h-[calc(100vh-80px)]">
-            <div className="flex flex-col text-[#342A0F] font-bold h-auto w-[85vw] sm:w-[50vw] md:max-w-[50vw] bg-[#FFF1AC] border-[#4C3228] border-2 border-opacity-61 rounded-[30px] text-center mt-8 p-5">
+            <div className="flex flex-col text-[#342A0F] font-bold h-auto w-[85vw] sm:w-[50vw] md:max-w-[50vw] bg-[#FFF1AC] border-[#4C3228] border-2 rounded-[30px] text-center mt-8 p-5">
                 <div className="flex justify-between items-end w-full">
                     <p className="text-[0.8rem] text-left">ชาเลนจ์ 3 เดือน</p>
                     <p className="text-[0.6rem] text-right font-semibold">เก็บเงินเดือนละ 500 บาท</p>
@@ -109,7 +109,7 @@ export default function Challenges() {
 
             <div className="flex flex-col justify-center items-center mt-5" >
                 <p className="text-[0.8rem] mt-2 font-bold" >ระดับปัจจุบัน</p>
-                <div className="flex justify-center gap-4 items-center text-[#342A0F] font-bold h-[10vh] w-[50vw] sm:w-[30vw] md:max-w-[25vw] bg-[#FFF1AC] border-[#4C3228] border-2 border-opacity-61 rounded-[30px] text-center mt-3">
+                <div className="flex justify-center gap-4 items-center text-[#342A0F] font-bold h-[10vh] w-[50vw] sm:w-[30vw] md:max-w-[25vw] bg-[#FFF1AC] border-[#4C3228]/[61%] border-2 rounded-[30px] text-center mt-3">
                     <Image
                         src="/babyJor.jpg"
                         width={50}

@@ -36,7 +36,7 @@ export default function EditProfile() {
     const [username, setUsername] = useState("");
 
     return (
-        <>
+        <div className="bg-[#FAF9F6] h-screen">
             <nav className="flex items-end justify-between h-[14vh] bg-[#4C3228] rounded-b-[30px] pb-4 px-6">
                 <button
                     onClick={handleBack}
@@ -45,8 +45,8 @@ export default function EditProfile() {
                     <ArrowBackIcon fontSize="medium" className="text-[#4C3228]" />
                 </button>
             </nav>
-            <div className="flex flex-col items-center justify-center mx-auto w-full">
-                <div className="text-[#342A0F] bg-[#F6F4EC] border-[#8D6E63] border-2 border-opacity-61 rounded-[30px] h-auto text-center w-[90vw] sm:w-[90vw] md:max-w-[60vw] mt-5 p-6" >
+            <div className="flex bg-[#FAF9F6] flex-col items-center justify-center mx-auto w-full">
+                <div className="text-[#342A0F] bg-[#F6F4EC] border-[#8D6E63]/[12%] border-2 rounded-[30px] h-auto text-center w-[90vw] sm:w-[90vw] md:max-w-[60vw] mt-5 p-6" >
                     <h2 className="text-[0.8rem] font-bold text-brown">แก้ไขโปรไฟล์</h2>
 
                     {/* รูปโปรไฟล์ใหญ่ */}
@@ -97,6 +97,6 @@ export default function EditProfile() {
                 </div>
             </div>
 
-        </>
+        </div>
     );
 }

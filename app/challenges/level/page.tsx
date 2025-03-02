@@ -18,7 +18,7 @@ export default function Level() {
 
 
     return (
-        <>
+        <div className="bg-[#FAF9F6] h-screen">
             <nav className="flex items-end justify-between h-[14vh] bg-[#4C3228] rounded-b-[30px] pb-4 px-6">
                 <button
                     onClick={handleBack}
@@ -30,7 +30,7 @@ export default function Level() {
 
 
             <div className="flex flex-col items-center justify-center mx-auto w-full">
-                <div className="flex flex-col gap-4 text-[#342A0F] bg-[#F6F4EC] border-[#8D6E63] border-2 border-opacity-61 rounded-[30px] text-center mt-3 w-[90vw] sm:w-[90vw] md:max-w-[60vw] h-auto p-4">
+                <div className="flex flex-col gap-4 text-[#342A0F] bg-[#F6F4EC] border-[#8D6E63]/[12%] border-2 rounded-[30px] text-center mt-3 w-[90vw] sm:w-[90vw] md:max-w-[60vw] h-auto p-4">
                     {/* เลเวลลิง */}
                     <p className="text-[1rem] md:text-[1.2rem] font-bold">ระดับต่างๆ</p>
 
@@ -69,6 +69,6 @@ export default function Level() {
                     />
                 </div>
             </div>
-        </>
+        </div>
     );
 }

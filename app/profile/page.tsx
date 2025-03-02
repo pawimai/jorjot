@@ -19,7 +19,7 @@ export default function Profile() {
         }
     };
     return (
-        <>
+        <div className="bg-[#FAF9F6] h-screen bg-[#FAF9F6]">
             <nav className="flex items-end justify-between h-[14vh] bg-[#4C3228] rounded-b-[30px] pb-4 px-6">
                 <button
                     onClick={handleBack}
@@ -29,8 +29,8 @@ export default function Profile() {
                 </button>
             </nav>
 
-            <div className="flex flex-col items-center justify-center mx-auto w-full">
-                <div className="flex items-center text-[#342A0F] bg-[#F6F4EC] border-[#8D6E63] border-2 border-opacity-61 rounded-[30px] text-center mt-5 w-[90vw] sm:w-[90vw] md:max-w-[60vw] h-[19vh] p-4 gap-4">
+            <div className="flex flex-col bg-[#FAF9F6] items-center justify-center mx-auto w-full">
+                <div className="flex items-center text-[#342A0F] bg-[#F6F4EC] border-[#8D6E63]/[12%] border-2 rounded-[30px] text-center mt-5 w-[90vw] sm:w-[90vw] md:max-w-[60vw] h-[19vh] p-4 gap-4">
                     <div className="relative w-20 h-20 overflow-hidden border-[3px] border-[#FCDD45] ml-2 rounded-full bg-white flex items-center justify-center">
                         <Image
                             src="/profile1.svg" // เปลี่ยนรูปโปรไฟล์ได้
@@ -53,20 +53,20 @@ export default function Profile() {
                 </div>
                 <a
                     href="/profile/changPassword"
-                    className="flex items-center text-[#342A0F] bg-[#F6F4EC] border-[#8D6E63] border-2 border-opacity-61 rounded-[30px] text-center mt-5 w-[90vw] sm:w-[90vw] md:max-w-[60vw] h-[7vh] p-4 gap-4">
+                    className="flex items-center text-[#342A0F] bg-[#F6F4EC] border-[#8D6E63]/[12%] border-2 rounded-[30px] text-center mt-5 w-[90vw] sm:w-[90vw] md:max-w-[60vw] h-[7vh] p-4 gap-4">
                     <LockIcon className="ml-2" />
                     <p className="text-[0.9rem] md:text-[1rem] font-bold">เปลี่ยนรหัสผ่าน</p>
                 </a>
                 <a
                     href="/profile/aboutUs"
-                    className="flex items-center text-[#342A0F] bg-[#F6F4EC] border-[#8D6E63] border-2 border-opacity-61 rounded-[30px] text-center mt-5 w-[90vw] sm:w-[90vw] md:max-w-[60vw] h-[7vh] p-4 gap-4">
+                    className="flex items-center text-[#342A0F] bg-[#F6F4EC] border-[#8D6E63]/[12%] border-2 rounded-[30px] text-center mt-5 w-[90vw] sm:w-[90vw] md:max-w-[60vw] h-[7vh] p-4 gap-4">
                     <InfoOutlinedIcon className="ml-2" />
                     <p className="text-[0.9rem] md:text-[1rem] font-bold">เกี่ยวกับเรา</p>
                 </a>
-                <div className="flex items-center text-[#342A0F] bg-[#F6F4EC] border-[#8D6E63] border-2 border-opacity-61 rounded-[30px] text-center mt-3 w-[90vw] sm:w-[90vw] md:max-w-[60vw] h-[7vh] p-4 gap-4">
+                <div className="flex items-center text-[#342A0F] bg-[#F6F4EC] border-[#8D6E63]/[12%] border-2 rounded-[30px] text-center mt-3 w-[90vw] sm:w-[90vw] md:max-w-[60vw] h-[7vh] p-4 gap-4">
                     <LogoutOutlinedIcon className="ml-2 text-[#AB502D]" /><p className="text-[0.9rem] md:text-[1rem] font-bold" >ออกจากระบบ</p>
                 </div>
             </div>
-        </>
+        </div>
     );
 }

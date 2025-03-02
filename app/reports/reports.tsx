@@ -30,21 +30,19 @@ const data = [
 export default function Reports() {
     const [dropdown, setDropdown] = useState("month");
     const [month, setMonth] = useState("January");
-    const [year, setYear] = useState("2025");
-    const [category, setCategory] = useState("All");
 
     return (
-        <div className="mx-auto pb-[13vh] overflow-y-auto max-h-[calc(100vh-80px)]">
+        <div className="mx-auto pb-[13vh] overflow-y-auto max-h-[calc(100vh-80px)] bg-[#FAF9F6]">
             {/* Dropdown + Summary */}
-            <div className="flex justify-between items-center p-3">
+            <div className="flex justify-between items-center p-3 text-[#342A0F]">
                 <Select
                     value={dropdown}
                     onChange={(e) => setDropdown(e.target.value)}
-                    className="w-[25vw] h-[4vh] text-[0.8rem] font-bold border-2 border-[#342A0F] rounded-[50px]"
+                    className="w-[25vw] h-[4vh] text-[0.8rem] font-bold border-2 border-[#342A0F] text-[#342A0F] rounded-[50px]"
                 >
-                    <MenuItem value="month">เดือน</MenuItem>
-                    <MenuItem value="year">ปี</MenuItem>
-                    <MenuItem value="Category">หมวดหมู่</MenuItem>
+                    <MenuItem value="month" className="text-[#342A0F]" >เดือน</MenuItem>
+                    <MenuItem value="year" className="text-[#342A0F]">ปี</MenuItem>
+                    <MenuItem value="Category" className="text-[#342A0F]" >หมวดหมู่</MenuItem>
                 </Select>
                 <div className="flex text-[0.65rem]">
                     <div className="flex justify-center items-center text-[#342A0F] font-bold h-[4vh] w-[28vw] bg-[#F6F4EC] border-[#342A0F] border rounded-tl-[30px] rounded-bl-[30px] border-r-0 p-2 text-center">
@@ -96,7 +94,7 @@ export default function Reports() {
             </ResponsiveContainer>
 
             {/* Table */}
-            <table className="w-full mt-4 border-separate border-spacing-0 border-2 border-[#4C3228] rounded-t-[30px]">
+            <table className="w-full mt-4 border-separate border-spacing-0 border-2 border-[#4C3228] rounded-t-[30px] text-[#342A0F]">
                 <thead>
                     <tr className="bg-gray-100 rounded-t-[30px]">
                         <th className="p-2 first:rounded-tl-[30px] last:rounded-tr-[30px] border-b-2 border-[#4C3228]">

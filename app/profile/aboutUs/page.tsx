@@ -25,7 +25,7 @@ export default function AboutUs() {
     ];
 
     return (
-        <>
+        <div className="bg-[#FAF9F6] h-screen">
             <nav className="flex items-end justify-between h-[14vh] bg-[#4C3228] rounded-b-[30px] pb-4 px-6">
                 <button
                     onClick={handleBack}
@@ -35,10 +35,10 @@ export default function AboutUs() {
                 </button>
             </nav>
             <div className="flex flex-col items-center justify-center mx-auto w-full">
-                <div className="text-[#342A0F] bg-[#F6F4EC] border-[#8D6E63] border-2 border-opacity-61 rounded-[30px] text-center w-[90vw] sm:w-[90vw] md:max-w-[60vw] h-auto mt-5 p-4">
+                <div className="text-[#342A0F] bg-[#F6F4EC] border-[#8D6E63]/[12%] border-2 rounded-[30px] text-center w-[90vw] sm:w-[90vw] md:max-w-[60vw] h-auto mt-5 p-4">
                     <h2 className="font-bold text-xl mt-2">เกี่ยวกับเรา</h2>
                     {teamMembers.map((member, index) => (
-                        <div key={index} className="flex items-center pl-7 gap-5 text-[#342A0F] w-full h-[12vh]">
+                        <div key={index} className="flex items-center pl-5 gap-5 text-[#342A0F] w-full h-[12vh]">
                             <div className="relative w-12 h-12 overflow-hidden rounded-full bg-white">
                                 <Image
                                     src={member.image}
@@ -52,6 +52,6 @@ export default function AboutUs() {
                     ))}
                 </div>
             </div>
-        </>
+        </div>
     );
 }

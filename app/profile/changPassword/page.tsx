@@ -16,7 +16,7 @@ export default function ChangePassword() {
     };
 
     return (
-        <>
+        <div className="bg-[#FAF9F6] h-screen">
             <nav className="flex items-end justify-between h-[14vh] bg-[#4C3228] rounded-b-[30px] pb-4 px-6">
                 <button
                     onClick={handleBack}
@@ -26,8 +26,8 @@ export default function ChangePassword() {
                 </button>
             </nav>
 
-            <div className="flex flex-col items-center justify-center mx-auto w-full">
-                <div className="text-[#342A0F] bg-[#F6F4EC] border-[#8D6E63] border-2 border-opacity-61 rounded-[30px] h-auto text-center w-[90vw] sm:w-[90vw] md:max-w-[60vw] mt-5 p-6">
+            <div className="flex flex-col bg-[#FAF9F6] items-center justify-center mx-auto w-full">
+                <div className="text-[#342A0F] bg-[#F6F4EC] border-[#8D6E63]/[12%] border-2 rounded-[30px] h-auto text-center w-[90vw] sm:w-[90vw] md:max-w-[60vw] mt-5 p-6">
                     <h2 className="font-bold text-md mb-6">ตั้งค่ารหัสผ่านใหม่</h2>
                     <form className="space-y-4">
                         <div className="flex flex-col text-left">
@@ -75,6 +75,6 @@ export default function ChangePassword() {
                     </form>
                 </div>
             </div>
-        </>
+        </div>
     );
 }
