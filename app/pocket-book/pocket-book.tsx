@@ -21,17 +21,11 @@ export function Pocket_book() {
     const [income, setIncome] = useState("");
     const [expense, setExpense] = useState("");
 
-    useEffect(() => {
-        fetchBalance();
-    }, []);
+    useEffect(() => { fetchBalance(); }, []);
 
-    useEffect(() => {
-        fetchincomeToday();
-    }, []);
+    useEffect(() => { fetchincomeToday(); }, []);
 
-    useEffect(() => {
-        fetchexpenseToday();
-    }, []);
+    useEffect(() => { fetchexpenseToday(); }, []);
 
     const fetchBalance = async () => {
         try {
