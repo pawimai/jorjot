@@ -19,7 +19,7 @@ export default function Profile() {
         }
     };
     return (
-        <div className="bg-[#FAF9F6] h-screen bg-[#FAF9F6]">
+        <div className="bg-[#FAF9F6] h-screen">
             <nav className="flex items-end justify-between h-[14vh] bg-[#4C3228] rounded-b-[30px] pb-4 px-6">
                 <button
                     onClick={handleBack}
