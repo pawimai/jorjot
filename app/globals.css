@@ -1,7 +1,6 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import url('https://fonts.googleapis.com/css2?family=Mali:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&display=swap');
 
 :root {
   --background: #ffffff;
@@ -26,16 +25,17 @@ body {
 }
 
 .scrollable::-webkit-scrollbar {
-  width: 4px;  /* ความกว้างของ scrollbar */
+  width: 4px;
+  /* ความกว้างของ scrollbar */
 }
 
 .scrollable::-webkit-scrollbar-thumb {
-  background-color: rgba(0, 0, 0, 0.3); /* สีของส่วนที่เลื่อน */
+  background-color: rgba(0, 0, 0, 0.3);
+  /* สีของส่วนที่เลื่อน */
   border-radius: 10px;
 }
 
 .scrollable::-webkit-scrollbar-track {
-  background: #f1f1f1;  /* สีของแทร็ค (พื้นหลังของ scrollbar) */
+  background: #f1f1f1;
+  /* สีของแทร็ค (พื้นหลังของ scrollbar) */
 }
-
-
