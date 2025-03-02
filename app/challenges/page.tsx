@@ -1,7 +1,13 @@
-import Level5 from "./level5";
+import MenuBar from "../component/Menu";
+import Nav from "../component/Navbar";
+import Challenges from "./challenges";
 
-export default function Page() {
+export default function Page(){
     return(
-        <Level5/>
+        <>
+            <Nav/>
+            <Challenges/>
+            <MenuBar/>
+        </>
     );
 }
