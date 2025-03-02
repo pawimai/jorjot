@@ -29,13 +29,13 @@ export default function Challenges() {
                 <div className="flex flex-col px-3 h-[20vh] w-[90%] sm:w-[90%] md:max-w-[90%] bg-[#FFF1AC] rounded-[13px] text-center text-[0.8rem] mt-4 flex justify-center items-center">
                     <form className="pb-2 w-full">
                         <label htmlFor="password" className="block mb-2 font-bold text-[#342A0F] text-left">
-                            จำนวนเงิน
+                            เก็บเงินเดือนละ
                         </label>
                         <input
                             type="password"
                             name="password"
                             id="password"
-                            placeholder="฿10,000.00"
+                            placeholder="฿500.00"
                             className="bg-[#FFFFFF] border-2 border-[#342A0F] text-[#513F0B] rounded-[30px] block w-full py-1 px-4 text-[11px]"
                             required
                         />
