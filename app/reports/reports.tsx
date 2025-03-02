@@ -94,14 +94,16 @@ export default function Reports() {
             </div>
 
             {/* Chart */}
-            <ResponsiveContainer width="100%" height={200}>
-                <LineChart data={data}>
-                    <XAxis dataKey="date" />
-                    <YAxis />
-                    <Tooltip />
-                    <Line type="monotone" dataKey="expense" stroke="#000" strokeWidth={2} dot={{ r: 5 }} />
-                </LineChart>
-            </ResponsiveContainer>
+            <div className="flex items-center justify-center w-[90vw]" >
+                <ResponsiveContainer width="100%" height={200}>
+                    <LineChart data={data}>
+                        <XAxis dataKey="date" />
+                        <YAxis />
+                        <Tooltip />
+                        <Line type="monotone" dataKey="expense" stroke="#000" strokeWidth={2} dot={{ r: 5 }} />
+                    </LineChart>
+                </ResponsiveContainer>
+            </div>
 
             {/* Table */}
             <table className="w-full mt-4 border-separate border-spacing-0 border-2 border-[#4C3228] rounded-t-[30px] text-[#342A0F]">

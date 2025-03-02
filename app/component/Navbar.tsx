@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export default function Nav() {
     return (
-        <nav className="flex items-end justify-between h-[14vh] bg-[#4C3228] rounded-b-[30px] pb-3 px-6">
+        <nav className="flex items-end justify-between h-[14vh] bg-[#4C3228] rounded-b-[30px] pb-3 px-6 ">
             {/* โลโก้ชื่อเว็บ */}
             <Link href={"/pocket-book"} className="text-white text-[1.5rem] font-bold drop-shadow-md">จ๋อจด</Link>
 
