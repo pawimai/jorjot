@@ -5,6 +5,7 @@ import Image from "next/image";
 import Swal from "sweetalert2";
 import { useRouter } from 'next/navigation';
 import config from "./config";
+import Cookies from 'js-cookie';
 
 export default function Login() {
   const [name, setName] = useState("");
@@ -24,6 +25,10 @@ export default function Login() {
           console.log("first")
           const data = res.data;
           console.log("Login successful:", data);
+          
+          // Store token in cookies
+          Cookies.set('token', data.token, { expires: 7 }); // Expires in 7 days
+
           Swal.fire({
             icon: 'success',
             title: 'Login Successful',
@@ -95,16 +100,6 @@ export default function Login() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
-              {/* <div className="flex items-center mt-2">
-                <input
-                  id="remember"
-                  type="checkbox"
-                  className="w-4 h-4 border border-gray-300 rounded bg-gray-50  accent-black"
-                />
-                <label htmlFor="remember" className="ml-2 text-sm text-gray-500">
-                  Remember me
-                </label>
-              </div> */}
             </div>
             <div>
               <button

@@ -2,6 +2,12 @@
 
 import { useRouter } from "next/navigation";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { useState } from "react";
+import axios from "axios";
+import Swal from "sweetalert2";
+import config from "../../config";
+import Cookies from "js-cookie";
+
 
 export default function ChangePassword() {
     const router = useRouter();
@@ -12,6 +18,57 @@ export default function ChangePassword() {
             router.back(); // กลับไปหน้าก่อนหน้า
         } else {
             router.push("/"); // ถ้าไม่มีหน้าก่อนหน้า ให้ไปหน้าแรก
+        }
+    };
+
+    const [currentPassword, setcurrentPassword] = useState("");
+    const [newpassword, setnewpassword] = useState("");
+    const [confirmNewPassword, setconfirmNewPassword] = useState("");
+
+    const changepassword = async (e: React.FormEvent) => {
+        e.preventDefault();
+
+        try {
+            const token = Cookies.get('token'); // Retrieve token from cookies
+
+            await axios.put(config.api_path + "/auth/change-password", {
+                currentPassword,
+                newpassword,
+                confirmNewPassword
+            }, {
+                headers: {
+                    Authorization: `${token}` // Use token in the Authorization header
+                }
+            }).then(res => {
+                if (res.status === 200) {
+                    const data = res.data;
+                    console.log("Password updated successfully:", data);
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Password updated successfully',
+                        text: 'Your password has been changed!',
+                        timer: 2000,
+                        showConfirmButton: true,
+                    }).then(() => {
+                        router.push('/');
+                    });
+                }
+            }).catch(err => {
+                throw err.response.data
+            })
+
+        } catch (e: unknown) {
+            let errorMessage = 'An unknown error occurred';
+            if (e instanceof Error) {
+                errorMessage = e.message;
+            } else if (typeof e === 'string') {
+                errorMessage = e;
+            }
+            Swal.fire({
+                icon: 'error',
+                title: 'An Error Occurred',
+                text: errorMessage,
+            });
         }
     };
 
@@ -29,17 +86,19 @@ export default function ChangePassword() {
             <div className="flex flex-col bg-[#FAF9F6] items-center justify-center mx-auto w-full">
                 <div className="text-[#342A0F] bg-[#F6F4EC] border-[#8D6E63]/[12%] border-2 rounded-[30px] h-auto text-center w-[90vw] sm:w-[90vw] md:max-w-[60vw] mt-5 p-6">
                     <h2 className="font-bold text-md mb-6">ตั้งค่ารหัสผ่านใหม่</h2>
-                    <form className="space-y-4">
+                    <form className="space-y-4" onSubmit={changepassword}>
                         <div className="flex flex-col text-left">
                             <label htmlFor="current-password" className="text-sm font-medium text-[#342A0F] mb-1">
                                 รหัสผ่านปัจจุบัน
                             </label>
                             <input
-                                type="text"
+                                type="password"
                                 id="current-password"
                                 className="bg-[#FFFFFF] border-2 border-[#342A0F] text-[#513F0B] rounded-[30px] w-full py-2 px-4 text-sm"
                                 placeholder="รหัสผ่านปัจจุบัน"
                                 required
+                                value={currentPassword}
+                                onChange={(e) => setcurrentPassword(e.target.value)}
                             />
                         </div>
                         <div className="flex flex-col text-left">
@@ -47,11 +106,13 @@ export default function ChangePassword() {
                                 รหัสผ่านใหม่
                             </label>
                             <input
-                                type="text"
+                                type="password"
                                 id="new-password"
                                 className="bg-[#FFFFFF] border-2 border-[#342A0F] text-[#513F0B] rounded-[30px] w-full py-2 px-4 text-sm"
                                 placeholder="รหัสผ่านใหม่"
                                 required
+                                value={newpassword}
+                                onChange={(e) => setnewpassword(e.target.value)}
                             />
                         </div>
                         <div className="flex flex-col text-left">
@@ -59,11 +120,13 @@ export default function ChangePassword() {
                                 ยืนยันรหัสผ่านใหม่
                             </label>
                             <input
-                                type="text"
+                                type="password"
                                 id="confirm-password"
                                 className="bg-[#FFFFFF] border-2 border-[#342A0F] text-[#513F0B] rounded-[30px] mb-5 w-full py-2 px-4 text-sm"
                                 placeholder="ยืนยันรหัสผ่านใหม่"
                                 required
+                                value={confirmNewPassword}
+                                onChange={(e) => setconfirmNewPassword(e.target.value)}
                             />
                         </div>
                         <button

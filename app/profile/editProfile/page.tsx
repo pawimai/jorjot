@@ -7,6 +7,10 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/free-mode";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import axios from "axios";
+import Swal from "sweetalert2";
+import config from "../../config";
+import Cookies from "js-cookie";
 
 export default function EditProfile() {
     const router = useRouter();
@@ -33,7 +37,52 @@ export default function EditProfile() {
     ];
 
     const [selectedImage, setSelectedImage] = useState(profileImages[0]);
-    const [username, setUsername] = useState("");
+    const [newName, setnewName] = useState("");
+
+    const changename = async (e: React.FormEvent) => {
+        e.preventDefault();
+
+        try {
+            const token = Cookies.get('token'); // Retrieve token from cookies
+
+            await axios.put(config.api_path + "/auth/change-name", {
+                newName: newName
+            }, {
+                headers: {
+                    Authorization: `${token}` // Use token in the Authorization header
+                }
+            }).then(res => {
+                if (res.status === 200) {
+                    const data = res.data;
+                    console.log("Name updated successfully:", data);
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Name updated successfully',
+                        text: 'Your name has been changed!',
+                        timer: 2000,
+                        showConfirmButton: true,
+                    }).then(() => {
+                        router.push('/');
+                    });
+                }
+            }).catch(err => {
+                throw err.response.data
+            })
+
+        } catch (e: unknown) {
+            let errorMessage = 'An unknown error occurred';
+            if (e instanceof Error) {
+                errorMessage = e.message;
+            } else if (typeof e === 'string') {
+                errorMessage = e;
+            }
+            Swal.fire({
+                icon: 'error',
+                title: 'An Error Occurred',
+                text: errorMessage,
+            });
+        }
+    };
 
     return (
         <div className="bg-[#FAF9F6] h-screen">
@@ -79,24 +128,28 @@ export default function EditProfile() {
 
 
                     {/* เปลี่ยนชื่อบัญชี */}
-                    <div className="mt-4 text-left">
-                        <label className="block text-brown font-bold text-[0.8rem] pb-2">เปลี่ยนชื่อบัญชี</label>
-                        <input
-                            type="text"
-                            placeholder="ชื่อบัญชี"
-                            value={username}
-                            onChange={(e) => setUsername(e.target.value)}
-                            className="bg-[#FFFFFF] border-2 border-[#342A0F] text-[#513F0B] rounded-[30px] w-full py-2 px-4 text-sm"
-                        />
-                    </div>
+                    <form className="space-y-6 md:space-y-6" onSubmit={changename}>
+                        <div className="mt-4 text-left">
+                            <label className="block text-brown font-bold text-[0.8rem] pb-2">เปลี่ยนชื่อบัญชี</label>
+                            <input
+                                type="text"
+                                placeholder="ชื่อบัญชี"
+                                className="bg-[#FFFFFF] border-2 border-[#342A0F] text-[#513F0B] rounded-[30px] w-full py-2 px-4 text-sm"
+                                required
+                                value={newName}
+                                onChange={(e) => setnewName(e.target.value)}
+                            />
+                        </div>
 
-                    {/* ปุ่มบันทึก */}
-                    <button className="w-full bg-[#FCDD45] text-[#342A0F] font-semibold py-2 mt-5 rounded-[30px]">
-                        บันทึก
-                    </button>
+                        {/* ปุ่มบันทึก */}
+                        <button
+                            type="submit"
+                            className="w-full bg-[#FCDD45] text-[#342A0F] font-semibold py-2 mt-5 rounded-[30px]">
+                            บันทึก
+                        </button>
+                    </form>
                 </div>
             </div>
-
         </div>
     );
 }
