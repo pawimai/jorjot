@@ -27,7 +27,7 @@ export default function Signup() {
         }
 
         try {
-            const res = await axios.post(config.api_path + "/auth/register", {
+            await axios.post(config.api_path + "/auth/register", {
                 name,
                 email,
                 password,
