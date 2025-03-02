@@ -43,7 +43,7 @@ export default function Login() {
           });
         }
       })
-    } catch (error) {
+    } catch (e) {
       let errorMessage = 'An unknown error occurred';
       if (e instanceof Error) {
         errorMessage = e.message;
