@@ -1,19 +1,20 @@
 "use client";
 
-import { useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import InsertChartIcon from "@mui/icons-material/InsertChart";
-import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import HourglassEmptyIcon from "@mui/icons-material/HourglassEmpty";
 import TrackChangesIcon from "@mui/icons-material/TrackChanges";
 
 export default function MenuBar() {
-  const [active, setActive] = useState("overview");
-
+  const router = useRouter();
+  const pathname = usePathname(); // ดึง path ปัจจุบัน
+  
   const menuItems = [
-    { id: "record", label: "บันทึก", icon: <EditOutlinedIcon fontSize="small" /> },
-    { id: "overview", label: "ภาพรวม", icon: <InsertChartIcon fontSize="small" /> },
-    { id: "forecast", label: "คาดการณ์", icon: <HourglassEmptyIcon fontSize="small" /> },
-    { id: "challenge", label: "ชาเลนจ์", icon: <TrackChangesIcon fontSize="small" /> },
+    { id: "record", label: "บันทึก", icon: <EditOutlinedIcon fontSize="small" />, path: "/pocket-book" },
+    { id: "overview", label: "ภาพรวม", icon: <InsertChartIcon fontSize="small" />, path: "/reports" },
+    { id: "forecast", label: "คาดการณ์", icon: <HourglassEmptyIcon fontSize="small" />, path: "/forecast" },
+    { id: "challenge", label: "ชาเลนจ์", icon: <TrackChangesIcon fontSize="small" />, path: "/challenges" },
   ];
 
   return (
@@ -22,14 +23,12 @@ export default function MenuBar() {
         <button
           key={item.id}
           className={`flex flex-col items-center space-y-1 p-2 w-full max-w-[90px] rounded-[16px] drop-shadow-lg transition ${
-            active === item.id
-              ? "bg-[#4C3228] text-white shadow-md"
-              : "text-black"
+            pathname === item.path ? "bg-[#4C3228] text-white shadow-md" : "text-black"
           }`}
-          onClick={() => setActive(item.id)}
+          onClick={() => router.push(item.path)} // เปลี่ยนหน้าเมื่อคลิก
         >
           {item.icon}
-          <span className="text-[0.8rem] font-medium">{item.label}</span>
+          <span className="text-[0.7rem] font-medium">{item.label}</span>
         </button>
       ))}
     </div>
