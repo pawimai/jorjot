@@ -123,7 +123,7 @@ export default function Signup() {
                                 onChange={(e) => setConfirmPassword(e.target.value)}
                             />
                         </div>
-                        <div className="flex items-center mt-2">
+                        {/* <div className="flex items-center mt-2">
                             <input
                                 id="remember"
                                 type="checkbox"
@@ -132,7 +132,7 @@ export default function Signup() {
                             <label htmlFor="remember" className="ml-2 text-sm text-gray-500">
                                 Remember me
                             </label>
-                        </div>
+                        </div> */}
                         <div>
                             <button
                                 type="submit"
