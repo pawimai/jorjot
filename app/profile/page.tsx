@@ -10,6 +10,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import config from "../config";
 import Cookies from "js-cookie";
+import Swal from "sweetalert2";
 
 export default function Profile() {
     const router = useRouter();
@@ -22,30 +23,31 @@ export default function Profile() {
             router.push("/"); // ถ้าไม่มีหน้าก่อนหน้า ให้ไปหน้าแรก
         }
     };
-
+    
     const [profileImage, setProfileImage] = useState("/defaultProfile.jpg"); // Default profile image
+    const [name, setName] = useState("");
+    const [level, setLevel] = useState("");
+
+    const fetchProfile = async () => {
+        try {
+            const response = await axios.get(config.api_path + "/auth/profile", {
+                headers: {
+                    Authorization: Cookies.get('token')
+                }
+            });
+
+            if (response.status === 200) {
+                setProfileImage(response.data.profileImage); // Update state with fetched profile image
+                setName(response.data.name);
+                setLevel(response.data.level);
+            }
+        } catch (error) {
+            console.error("Error fetching profile image:", error);
+        }
+    };
 
     useEffect(() => {
-        const fetchProfileImage = async () => {
-            try {
-                const token = Cookies.get('token');
-
-                const response = await axios.get(config.api_path + "/auth/profile", {
-                    headers: {
-                        Authorization: `${token}`
-                    }
-                });
-
-                if (response.status === 200) {
-                    const data = response.data;
-                    setProfileImage(data.profileImage); // Update state with fetched profile image
-                }
-            } catch (error) {
-                console.error("Error fetching profile image:", error);
-            }
-        };
-
-        fetchProfileImage();
+        fetchProfile();
     }, []);
 
     return (
@@ -73,8 +75,8 @@ export default function Profile() {
 
 
                     <div className="flex flex-col ml-1 items-start flex-1">
-                        <p className="text-[0.8rem] md:text-[1rem] font-bold">ชื่อบัญชี</p>
-                        <p className="text-[0.6rem] md:text-[0.9rem]">ระดับ เบบี้ลิงจ๋อ</p>
+                        <p className="text-[0.8rem] md:text-[1rem] font-bold">{name}</p>
+                        <p className="text-[0.6rem] md:text-[0.9rem]">ระดับ {level}</p>
                         <a className="mt-2 bg-[#FCDD45] text-[#342A0F] text-[0.7rem] font-bold w-[90%] h-[4vh] rounded-[30px] flex items-center justify-center"
                             href="/profile/editProfile" >
                             แก้ไขโปรไฟล์ของคุณ
