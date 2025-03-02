@@ -1,7 +1,15 @@
 "use client"
 import Image from "next/image";
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
+import { useState, useEffect } from "react";
+import axios from "axios";
+import config from "../config";
+import Cookies from "js-cookie";
+
 export default function Challenges() {
+
+
+
     return (
         <div className="flex flex-col justify-center items-center mx-auto pb-[13vh] overflow-y-auto max-h-[calc(100vh-80px)]">
             {/* กล่องแรก */}
