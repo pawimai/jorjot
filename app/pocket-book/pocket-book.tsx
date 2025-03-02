@@ -18,9 +18,19 @@ export function Pocket_book() {
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const [isPopuppocketOpen, setIsPopuppocketOpen] = useState(false);
     const [remain, setRemain] = useState("");
+    const [income, setIncome] = useState("");
+    const [expense, setExpense] = useState("");
 
     useEffect(() => {
         fetchBalance();
+    }, []);
+
+    useEffect(() => {
+        fetchincomeToday();
+    }, []);
+
+    useEffect(() => {
+        fetchexpenseToday();
     }, []);
 
     const fetchBalance = async () => {
@@ -49,6 +59,61 @@ export function Pocket_book() {
             });
         }
     }
+
+    const fetchincomeToday = async () => {
+        try {
+            await axios.get(config.api_path + "/transactions/today",
+                {
+                    headers: {
+                        Authorization: Cookies.get('token')
+                    }
+                }).then(res => {
+                    if (res.status === 200) {
+                        setIncome(res.data.incomeToday);
+                    }
+                });
+        } catch (e: unknown) {
+            let errorMessage = 'An unknown error occurred';
+            if (e instanceof Error) {
+                errorMessage = e.message;
+            } else if (typeof e === 'string') {
+                errorMessage = e;
+            }
+            Swal.fire({
+                icon: 'error',
+                title: 'An Error Occurred',
+                text: errorMessage,
+            });
+        }
+    }
+
+    const fetchexpenseToday = async () => {
+        try {
+            await axios.get(config.api_path + "/transactions/today",
+                {
+                    headers: {
+                        Authorization: Cookies.get('token')
+                    }
+                }).then(res => {
+                    if (res.status === 200) {
+                        setExpense(res.data.expenseToday);
+                    }
+                });
+        } catch (e: unknown) {
+            let errorMessage = 'An unknown error occurred';
+            if (e instanceof Error) {
+                errorMessage = e.message;
+            } else if (typeof e === 'string') {
+                errorMessage = e;
+            }
+            Swal.fire({
+                icon: 'error',
+                title: 'An Error Occurred',
+                text: errorMessage,
+            });
+        }
+    }
+
     return (
         <>
             <div className="p-4 bg-[#FAF9F6] flex flex-col gap-4 items-center mx-auto pb-[13vh] overflow-y-auto max-h-[calc(100vh-80px)]">
@@ -62,11 +127,11 @@ export function Pocket_book() {
                 <div className="flex items-center w-full text-xs max-w-md bg-[#F6F4EC] rounded-[20px] p-3 border border-[#4C3228]/[12%] justify-between shadow-sm">
                     <div className="text-center w-1/2 border-r border-[#4C3228]/[12%]">
                         <div className="text-[#342A0F]">รายรับวันนี้</div>
-                        <div className="text-[#07BE3E] font-bold">฿1,000.00</div>
+                        <div className="text-[#07BE3E] font-bold">{income}</div>
                     </div>
                     <div className="text-center w-1/2">
                         <div className="text-[#342A0F]">รายจ่ายวันนี้</div>
-                        <div className="text-[#FF0000] font-bold">฿1,000.00</div>
+                        <div className="text-[#FF0000] font-bold">{expense}</div>
                     </div>
                 </div>
                 {/* ธุรกรรม */}
