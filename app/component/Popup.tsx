@@ -16,7 +16,7 @@ export default function Popup({ isOpen, onClose }: PopupProps) {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 flex justify-center items-end bg-black/50">
+    <div className="fixed inset-0 flex justify-center items-end bg-black/50 mb-20 ">
       <motion.div
         className="bg-white w-full max-w-md sm:max-w-lg md:max-w-xl lg:max-w-2xl xl:max-w-3xl rounded-t-2xl p-6 shadow-lg"
         initial={{ y: "100%" }}
