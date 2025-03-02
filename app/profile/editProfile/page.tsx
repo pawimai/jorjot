@@ -125,6 +125,12 @@ export default function EditProfile() {
                             ))}
                         </Swiper>
                     </div>
+                    <button className="w-full bg-[#FCDD45] text-[#342A0F] font-semibold py-2 mt-5 rounded-[30px] mb-3">
+                        บันทึกรูปโปรไฟล์
+                    </button>
+
+                    {/* เส้นคั่น */}
+                    <div className="border-t-2 border-[#8D6E63]/[30%] w-full my-5 mb-8"></div>
 
 
                     {/* เปลี่ยนชื่อบัญชี */}
@@ -141,13 +147,11 @@ export default function EditProfile() {
                             />
                         </div>
 
-                        {/* ปุ่มบันทึก */}
-                        <button
-                            type="submit"
-                            className="w-full bg-[#FCDD45] text-[#342A0F] font-semibold py-2 mt-5 rounded-[30px]">
-                            บันทึก
-                        </button>
-                    </form>
+                    {/* ปุ่มบันทึก */}
+                    <button className="w-full bg-[#FCDD45] text-[#342A0F] font-semibold py-2 mt-5 rounded-[30px]">
+                        บันทึกชื่อบัญชี
+                    </button>
+                </form>
                 </div>
             </div>
         </div>

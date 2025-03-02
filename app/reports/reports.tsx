@@ -1,15 +1,17 @@
 "use client";
+
+import "swiper/css";
+import "swiper/css/free-mode";
+import "swiper/css/navigation";
+import "swiper/css";
 import { useState } from "react";
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
 import { MenuItem, Select } from "@mui/material";
 import { Swiper, SwiperSlide } from "swiper/react";
+import SwiperCore from "swiper";
 import "swiper/css";
-import "swiper/css/free-mode";
-// import { FreeMode } from "swiper/modules";
-// import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation } from "swiper/modules";
-// import "swiper/css";
 import "swiper/css/navigation";
+import ArrowBackIosNewOutlinedIcon from "@mui/icons-material/ArrowBackIosNewOutlined";
 
 const months = [
     "ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.",
@@ -29,7 +31,10 @@ const data = [
 
 export default function Reports() {
     const [dropdown, setDropdown] = useState("month");
-    const [month, setMonth] = useState("January");
+
+    const [swiper, setSwiper] = useState<SwiperCore | null>(null);
+
+    const [month, setMonth] = useState(months[0]);
 
     return (
         <div className="mx-auto pb-[13vh] overflow-y-auto max-h-[calc(100vh-80px)] bg-[#FAF9F6]">
@@ -40,11 +45,11 @@ export default function Reports() {
                     onChange={(e) => setDropdown(e.target.value)}
                     className="w-[25vw] h-[4vh] text-[0.8rem] font-bold border-2 border-[#342A0F] text-[#342A0F] rounded-[50px]"
                 >
-                    <MenuItem value="month" className="text-[#342A0F]" >เดือน</MenuItem>
-                    <MenuItem value="year" className="text-[#342A0F]">ปี</MenuItem>
-                    <MenuItem value="Category" className="text-[#342A0F]" >หมวดหมู่</MenuItem>
+                    <MenuItem value="month">เดือน</MenuItem>
+                    <MenuItem value="year">ปี</MenuItem>
+                    <MenuItem value="Category">หมวดหมู่</MenuItem>
                 </Select>
-                <div className="flex text-[0.65rem]">
+                <div className="flex text-[0.6rem]">
                     <div className="flex justify-center items-center text-[#342A0F] font-bold h-[4vh] w-[28vw] bg-[#F6F4EC] border-[#342A0F] border rounded-tl-[30px] rounded-bl-[30px] border-r-0 p-2 text-center">
                         รายรับ <span className="text-[#AB502D]">&nbsp;0&nbsp;</span> บาท
                     </div>
@@ -57,22 +62,23 @@ export default function Reports() {
             </div>
 
             {/* Swiper for Month Selection */}
-            <div className="flex p-2 ">
+            <div className="relative flex p-2 w-full text-[#342A0F] flex justify-center items-center">
+                <button onClick={() => swiper?.slidePrev()}><ArrowBackIosNewOutlinedIcon /></button>
+                {/* Swiper */}
                 <Swiper
+                    onSwiper={setSwiper} // เซ็ตค่า swiper instance ลง state
                     spaceBetween={5}
                     slidesPerView={4}
                     slidesPerGroup={4}
                     freeMode={true}
-                    navigation
-                    modules={[Navigation]}
                     className="w-full h-full"
                     onSlideChange={(swiper) => setMonth(months[swiper.activeIndex])}
-
                 >
+
                     {months.map((m) => (
                         <SwiperSlide key={m}>
                             <div
-                                className={` text-center cursor-pointer rounded-[30px] ${month === m ? "bg-[#FCDD45] text-[#342A0F]" : ""
+                                className={`text-center cursor-pointer rounded-[30px] px-4 py-2 transition ${month === m ? "bg-[#FCDD45] text-[#342A0F]" : "text-[#342A0F]"
                                     }`}
                                 onClick={() => setMonth(m)}
                             >
@@ -81,6 +87,10 @@ export default function Reports() {
                         </SwiperSlide>
                     ))}
                 </Swiper>
+                <button onClick={() => swiper?.slideNext()} className="rotate-180">
+                    <ArrowBackIosNewOutlinedIcon />
+                </button>
+
             </div>
 
             {/* Chart */}
@@ -106,7 +116,7 @@ export default function Reports() {
                     </tr>
                 </thead>
                 <tbody>
-                    {[100, 100, 100, 100,100, 100, 100, 100].map((amount, index) => (
+                    {[100, 100, 100, 100, 100, 100, 100, 100].map((amount, index) => (
                         <tr key={index} className={index % 2 === 0 ? "bg-yellow-100" : "bg-white"}>
                             <td className="text-center p-2">00/00/00</td>
                             <td className="text-center p-2">฿{amount}.00</td>
