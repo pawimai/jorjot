@@ -14,20 +14,17 @@ export default function Login() {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("first")
     try {
-      console.log("first0")
       await axios.post(config.api_path + "/auth/login", {
         name,
         password,
       }).then(res => {
         if (res.status === 200) {
-          console.log("first")
           const data = res.data;
           console.log("Login successful:", data);
           
           // Store token in cookies
-          Cookies.set('token', data.token, { expires: 7 }); // Expires in 7 days
+          Cookies.set('token', data.token); // Expires in 7 days
 
           Swal.fire({
             icon: 'success',

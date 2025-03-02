@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Popup from "../component/Popup";
 import WalletPopup from "../component/WalletPopup";
 
@@ -8,16 +8,54 @@ import PaymentsIcon from '@mui/icons-material/Payments';
 import SavingsIcon from '@mui/icons-material/Savings';
 import AccountBalanceRoundedIcon from '@mui/icons-material/AccountBalanceRounded';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
+import Swal from "sweetalert2";
+import axios from "axios";
+import config from "../config";
+import Cookies from "js-cookie";
+
 export function Pocket_book() {
+
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const [isPopuppocketOpen, setIsPopuppocketOpen] = useState(false);
+    const [remain, setRemain] = useState("");
+
+    useEffect(() => {
+        fetchBalance();
+    }, []);
+
+    const fetchBalance = async () => {
+        try {
+            await axios.get(config.api_path + "/transactions/balance",
+                {
+                    headers: {
+                        Authorization: Cookies.get('token')
+                    }
+                }).then(res => {
+                    if (res.status === 200) {
+                        setRemain(res.data.balance);
+                    }
+                });
+        } catch (e: unknown) {
+            let errorMessage = 'An unknown error occurred';
+            if (e instanceof Error) {
+                errorMessage = e.message;
+            } else if (typeof e === 'string') {
+                errorMessage = e;
+            }
+            Swal.fire({
+                icon: 'error',
+                title: 'An Error Occurred',
+                text: errorMessage,
+            });
+        }
+    }
     return (
         <>
             <div className="p-4 bg-[#FAF9F6] flex flex-col gap-4 items-center mx-auto pb-[13vh] overflow-y-auto max-h-[calc(100vh-80px)]">
                 {/* ยอดคงเหลือ */}
                 <div className="bg-[#F6F4EC] rounded-[30px] p-4 pl-6 border border-[#4C3228]/[12%] w-full max-w-md shadow-sm">
                     <div className="text-[#342A0F] font-bold text-sm">ยอดคงเหลือ</div>
-                    <div className="text-xl font-bold text-[#342A0F]">1,000 <span className="text-sm font-normal">บาท</span></div>
+                    <div className="text-xl font-bold text-[#342A0F]"> {remain} <span className="text-sm font-normal">บาท</span></div>
                 </div>
 
                 {/* รายรับ/รายจ่ายวันนี้ */}
