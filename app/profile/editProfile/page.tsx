@@ -36,53 +36,60 @@ export default function EditProfile() {
         "/profile9.svg",
     ];
 
-    const [selectedImage, setSelectedImage] = useState(profileImages[0]);
     const [newName, setnewName] = useState("");
     const [profileImage, setProfileImage] = useState("/defaultProfile.jpg");
 
     const changename = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        try {
-            const token = Cookies.get('token'); // Retrieve token from cookies
+        Swal.fire({
+            title: 'คุณแน่ใจหรือไม่?',
+            text: "คุณต้องการเปลี่ยนชื่อของคุณหรือไม่?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+             confirmButtonText: 'ใช่, เปลี่ยนเลย!',
+            cancelButtonText: 'ยกเลิก'
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                try {
+                    await axios.put(config.api_path + "/auth/change-name", {
+                        newName: newName
+                    }, {
+                        headers: {
+                            Authorization: Cookies.get('token') // Use token in the Authorization header
+                        }
+                    }).then(res => {
+                        if (res.status === 200) {
+                            const data = res.data;
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'เปลี่ยนชื่อสำเร็จ',
+                                text: 'ชื่อของคุณถูกเปลี่ยนแล้ว!',
+                                timer: 2000,
+                                showConfirmButton: true,
+                            })
+                        }
+                    }).catch(err => {
+                        throw err.response.data
+                    })
 
-            await axios.put(config.api_path + "/auth/change-name", {
-                newName: newName
-            }, {
-                headers: {
-                    Authorization: `${token}` // Use token in the Authorization header
-                }
-            }).then(res => {
-                if (res.status === 200) {
-                    const data = res.data;
-                    console.log("Name updated successfully:", data);
+                } catch (e: unknown) {
+                    let errorMessage = 'เกิดข้อผิดพลาดที่ไม่ทราบสาเหตุ';
+                    if (e instanceof Error) {
+                        errorMessage = e.message;
+                    } else if (typeof e === 'string') {
+                        errorMessage = e;
+                    }
                     Swal.fire({
-                        icon: 'success',
-                        title: 'Name updated successfully',
-                        text: 'Your name has been changed!',
-                        timer: 2000,
-                        showConfirmButton: true,
-                    }).then(() => {
-                        router.push('/profile/editProfile');
+                        icon: 'error',
+                        title: 'เกิดข้อผิดพลาด',
+                        text: errorMessage,
                     });
                 }
-            }).catch(err => {
-                throw err.response.data
-            })
-
-        } catch (e: unknown) {
-            let errorMessage = 'An unknown error occurred';
-            if (e instanceof Error) {
-                errorMessage = e.message;
-            } else if (typeof e === 'string') {
-                errorMessage = e;
             }
-            Swal.fire({
-                icon: 'error',
-                title: 'An Error Occurred',
-                text: errorMessage,
-            });
-        }
+        });
     };
 
     const changeprofileimage = async () => {
@@ -91,7 +98,7 @@ export default function EditProfile() {
             const token = Cookies.get('token'); // Retrieve token from cookies
 
             await axios.put(config.api_path + "/auth/profile", {
-                selectedImage
+                profileImage
             }, {
                 headers: {
                     Authorization: `${token}` // Use token in the Authorization header
@@ -102,20 +109,18 @@ export default function EditProfile() {
                     console.log("Profile updated successfully:", data);
                     Swal.fire({
                         icon: 'success',
-                        title: 'Profile updated successfully',
-                        text: 'Your profile has been changed!',
+                        title: 'เปลี่ยนรูปโปรไฟล์สำเร็จ',
+                        text: 'รูปโปรไฟล์ของคุณถูกเปลี่ยนแล้ว!',
                         timer: 2000,
                         showConfirmButton: true,
-                    }).then(() => {
-                        router.push('/profile/editProfile');
-                    });
+                    })
                 }
             }).catch(err => {
                 throw err.response.data
             })
 
         } catch (e: unknown) {
-            let errorMessage = 'An unknown error occurred';
+            let errorMessage = 'เกิดข้อผิดพลาดที่ไม่ทราบสาเหตุ';
             if (e instanceof Error) {
                 errorMessage = e.message;
             } else if (typeof e === 'string') {
@@ -123,33 +128,31 @@ export default function EditProfile() {
             }
             Swal.fire({
                 icon: 'error',
-                title: 'An Error Occurred',
+                title: 'เกิดข้อผิดพลาด',
                 text: errorMessage,
             });
         }
     };
 
-    useEffect(() => {
-        const fetchProfileImage = async () => {
-            try {
-                const token = Cookies.get('token');
-
-                const response = await axios.get(config.api_path + "/auth/profile", {
-                    headers: {
-                        Authorization: `${token}`
-                    }
-                });
-
-                if (response.status === 200) {
-                    const data = response.data;
-                    setProfileImage(data.profileImage); // Update state with fetched profile image
+    const fetchProfile = async () => {
+        try {
+            const response = await axios.get(config.api_path + "/auth/profile", {
+                headers: {
+                    Authorization: Cookies.get('token')
                 }
-            } catch (error) {
-                console.error("Error fetching profile image:", error);
-            }
-        };
+            });
 
-        fetchProfileImage();
+            if (response.status === 200) {
+                setProfileImage(response.data.profileImage); // Update state with fetched profile image
+                setnewName(response.data.name);
+            }
+        } catch (error) {
+            console.error("Error fetching profile image:", error);
+        }
+    };
+
+    useEffect(() => {
+        fetchProfile();
     }, []);
 
     return (
@@ -173,17 +176,17 @@ export default function EditProfile() {
                         </div>
                     </div>
 
-                    {/* Swiper สำหรับเลือกรูปโปรไฟล์ */}    
+                    {/* Swiper สำหรับเลือกรูปโปรไฟล์ */}
                     <div className="overflow-visible mx-auto w-full">
                         <Swiper slidesPerView={4.5} spaceBetween={5} className="my-4">
                             {profileImages.map((img, index) => (
                                 <SwiperSlide key={index} className="relative">
                                     <button
-                                        onClick={() => setSelectedImage(img)}
-                                        className={`w-12 h-12 rounded-full border-2 p-1 flex items-center justify-center ${selectedImage === img ? "border-yellow-500" : "border-yellow-500"}`} // กรอบสีเหลืองสำหรับทุกรูป
+                                        onClick={() => setProfileImage(img)}
+                                        className={`w-12 h-12 rounded-full border-2 p-1 flex items-center justify-center border-yellow-500`} // กรอบสีเหลืองสำหรับทุกรูป
                                     >
                                         <img src={img} alt={`Profile ${index}`} className="w-full h-full rounded-full" />
-                                        {selectedImage === img && (
+                                        {img === profileImage && (
                                             <div className="absolute bottom-1 right-1 bg-brown text-[#4C3228] w-2 h-2 flex items-center justify-center rounded-full text-xs">
                                                 <CheckCircleIcon className="w-5 h-5" />
                                             </div>
