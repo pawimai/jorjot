@@ -6,6 +6,10 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import LockIcon from '@mui/icons-material/Lock';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
+import { useState, useEffect } from "react";
+import axios from "axios";
+import config from "../config";
+import Cookies from "js-cookie";
 
 export default function Profile() {
     const router = useRouter();
@@ -18,6 +22,32 @@ export default function Profile() {
             router.push("/"); // ถ้าไม่มีหน้าก่อนหน้า ให้ไปหน้าแรก
         }
     };
+
+    const [profileImage, setProfileImage] = useState("/defaultProfile.jpg"); // Default profile image
+
+    useEffect(() => {
+        const fetchProfileImage = async () => {
+            try {
+                const token = Cookies.get('token');
+
+                const response = await axios.get(config.api_path + "/auth/profile", {
+                    headers: {
+                        Authorization: `${token}`
+                    }
+                });
+
+                if (response.status === 200) {
+                    const data = response.data;
+                    setProfileImage(data.profileImage); // Update state with fetched profile image
+                }
+            } catch (error) {
+                console.error("Error fetching profile image:", error);
+            }
+        };
+
+        fetchProfileImage();
+    }, []);
+
     return (
         <div className="bg-[#FAF9F6] h-screen">
             <nav className="flex items-end justify-between h-[14vh] bg-[#4C3228] rounded-b-[30px] pb-4 px-6">
@@ -33,7 +63,7 @@ export default function Profile() {
                 <div className="flex items-center text-[#342A0F] bg-[#F6F4EC] border-[#8D6E63]/[12%] border-2 rounded-[30px] text-center mt-5 w-[90vw] sm:w-[90vw] md:max-w-[60vw] h-[19vh] p-4 gap-4">
                     <div className="relative w-20 h-20 overflow-hidden border-[3px] border-[#FCDD45] ml-2 rounded-full bg-white flex items-center justify-center">
                         <Image
-                            src="/profile1.svg" // เปลี่ยนรูปโปรไฟล์ได้
+                            src={profileImage} // เปลี่ยนรูปโปรไฟล์ได้
                             alt="Profile"
                             width={60} 
                             height={60} 

@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/free-mode";
@@ -38,6 +38,7 @@ export default function EditProfile() {
 
     const [selectedImage, setSelectedImage] = useState(profileImages[0]);
     const [newName, setnewName] = useState("");
+    const [profileImage, setProfileImage] = useState("/defaultProfile.jpg");
 
     const changename = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -84,6 +85,73 @@ export default function EditProfile() {
         }
     };
 
+    const changeprofileimage = async () => {
+
+        try {
+            const token = Cookies.get('token'); // Retrieve token from cookies
+
+            await axios.put(config.api_path + "/auth/profile", {
+                selectedImage
+            }, {
+                headers: {
+                    Authorization: `${token}` // Use token in the Authorization header
+                }
+            }).then(res => {
+                if (res.status === 200) {
+                    const data = res.data;
+                    console.log("Profile updated successfully:", data);
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Profile updated successfully',
+                        text: 'Your profile has been changed!',
+                        timer: 2000,
+                        showConfirmButton: true,
+                    }).then(() => {
+                        router.push('/profile/editProfile');
+                    });
+                }
+            }).catch(err => {
+                throw err.response.data
+            })
+
+        } catch (e: unknown) {
+            let errorMessage = 'An unknown error occurred';
+            if (e instanceof Error) {
+                errorMessage = e.message;
+            } else if (typeof e === 'string') {
+                errorMessage = e;
+            }
+            Swal.fire({
+                icon: 'error',
+                title: 'An Error Occurred',
+                text: errorMessage,
+            });
+        }
+    };
+
+    useEffect(() => {
+        const fetchProfileImage = async () => {
+            try {
+                const token = Cookies.get('token');
+
+                const response = await axios.get(config.api_path + "/auth/profile", {
+                    headers: {
+                        Authorization: `${token}`
+                    }
+                });
+
+                if (response.status === 200) {
+                    const data = response.data;
+                    setProfileImage(data.profileImage); // Update state with fetched profile image
+                }
+            } catch (error) {
+                console.error("Error fetching profile image:", error);
+            }
+        };
+
+        fetchProfileImage();
+    }, []);
+
     return (
         <div className="bg-[#FAF9F6] h-screen">
             <nav className="flex items-end justify-between h-[14vh] bg-[#4C3228] rounded-b-[30px] pb-4 px-6">
@@ -101,11 +169,11 @@ export default function EditProfile() {
                     {/* รูปโปรไฟล์ใหญ่ */}
                     <div className="flex justify-center my-4">
                         <div className="w-24 h-24 rounded-full border-4 border-yellow-500 p-1">
-                            <img src={selectedImage} alt="Profile" className="w-full h-full rounded-full" />
+                            <img src={profileImage} alt="Profile" className="w-full h-full rounded-full" />
                         </div>
                     </div>
 
-                    {/* Swiper สำหรับเลือกรูปโปรไฟล์ */}
+                    {/* Swiper สำหรับเลือกรูปโปรไฟล์ */}    
                     <div className="overflow-visible mx-auto w-full">
                         <Swiper slidesPerView={4.5} spaceBetween={5} className="my-4">
                             {profileImages.map((img, index) => (
@@ -125,7 +193,7 @@ export default function EditProfile() {
                             ))}
                         </Swiper>
                     </div>
-                    <button className="w-full bg-[#FCDD45] text-[#342A0F] font-semibold py-2 mt-5 rounded-[30px] mb-3">
+                    <button onClick={changeprofileimage} className="w-full bg-[#FCDD45] text-[#342A0F] font-semibold py-2 mt-5 rounded-[30px] mb-3">
                         บันทึกรูปโปรไฟล์
                     </button>
 
@@ -147,11 +215,11 @@ export default function EditProfile() {
                             />
                         </div>
 
-                    {/* ปุ่มบันทึก */}
-                    <button className="w-full bg-[#FCDD45] text-[#342A0F] font-semibold py-2 mt-5 rounded-[30px]">
-                        บันทึกชื่อบัญชี
-                    </button>
-                </form>
+                        {/* ปุ่มบันทึก */}
+                        <button className="w-full bg-[#FCDD45] text-[#342A0F] font-semibold py-2 mt-5 rounded-[30px]">
+                            บันทึกชื่อบัญชี
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
