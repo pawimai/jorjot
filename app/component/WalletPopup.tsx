@@ -5,22 +5,42 @@ import PaymentsIcon from '@mui/icons-material/Payments';
 import SavingsIcon from '@mui/icons-material/Savings';
 import AccountBalanceRoundedIcon from '@mui/icons-material/AccountBalanceRounded';
 import QueryStatsRoundedIcon from '@mui/icons-material/QueryStatsRounded';
+import { useEffect, useState } from "react";
+import axios from "axios";
+import config from "../config";
+import Cookies from "js-cookie";
+import Swal from "sweetalert2";
+import { ClientPageRoot } from "next/dist/client/components/client-page";
 
 interface PopupProps {
   isOpen: boolean;
   onClose: () => void;
+  skibidi: [{
+    amount: number;
+    category: string;
+    date: string;
+    transaction_type: string;
+    updatedAt: Date;
+  _id: string;
+  user: string;
+  createdAt: Date;
+  }];
 }
 
-export default function WalletPopup({ isOpen, onClose }: PopupProps) {
+export default function WalletPopup({ isOpen, onClose, skibidi }: PopupProps) {
   if (!isOpen) return null;
 
   const wallets = [
-    { name: "เงินสด", amount: "฿50,000", color: "bg-[#FBF7E1] border-[#FBF7E1]", icon: <PaymentsIcon className="text-[#FFDC2D] w-4 h-4" /> },
-    { name: "บัญชีธนาคาร", amount: "฿80,000", color: "bg-[#EEF6EC] border-[#EEF6EC]", icon: <AccountBalanceRoundedIcon className="text-[#78C456] w-4 h-4" /> },
-    { name: "บัตรเครดิต", amount: "฿20,000", color: "bg-[#F8F0F2] border-[#F8F0F2]", icon: <CreditCardRoundedIcon className="text-[#DA6A6A] w-4 h-4" /> },
-    { name: "เงินออม", amount: "฿20,000", color: "bg-[#E1F7FF] border-[#E1F7FF]", icon: <SavingsIcon className="text-[#5093D4] w-4 h-4" /> },
-    { name: "เงินลงทุน", amount: "฿30,000", color: "bg-[#F9EFFF] border-[#F9EFFF]", icon: <QueryStatsRoundedIcon className="text-[#A56AF6] w-4 h-4" /> },
+    { name: "เงินสด", amount: 0, color: "bg-[#FBF7E1] border-[#FBF7E1]", icon: <PaymentsIcon className="text-[#FFDC2D] w-4 h-4" /> },
+    { name: "บัญชีธนาคาร", amount: 0, color: "bg-[#EEF6EC] border-[#EEF6EC]", icon: <AccountBalanceRoundedIcon className="text-[#78C456] w-4 h-4" /> },
+    { name: "บัตรเครดิต", amount: 0, color: "bg-[#F8F0F2] border-[#F8F0F2]", icon: <CreditCardRoundedIcon className="text-[#DA6A6A] w-4 h-4" /> },
+    { name: "เงินออม", amount: 0, color: "bg-[#E1F7FF] border-[#E1F7FF]", icon: <SavingsIcon className="text-[#5093D4] w-4 h-4" /> },
+    { name: "เงินลงทุน", amount: 0, color: "bg-[#F9EFFF] border-[#F9EFFF]", icon: <QueryStatsRoundedIcon className="text-[#A56AF6] w-4 h-4" /> },
   ];
+  
+  const updatedWallets = wallets.forEach((wallet,index) => {
+    wallet.amount = skibidi[index].amount
+  })
 
   return (
     <div className="fixed inset-0 flex justify-center items-end bg-black/50 mb-20 ">

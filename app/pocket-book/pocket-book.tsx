@@ -12,12 +12,27 @@ import Swal from "sweetalert2";
 import axios from "axios";
 import config from "../config";
 import Cookies from "js-cookie";
+import { ClientPageRoot } from "next/dist/client/components/client-page";
+
+interface PopupProps {
+    skibidi: [{
+      amount: number;
+      category: string;
+      date: string;
+      transaction_type: string;
+      updatedAt: Date;
+    _id: string;
+    user: string;
+    createdAt: Date;
+    }];
+  }
 
 export function Pocket_book() {
 
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const [isPopuppocketOpen, setIsPopuppocketOpen] = useState(false);
     const [remain, setRemain] = useState("");
+    const [wallet, setWallet] = useState<PopupProps | undefined>();
     const [income, setIncome] = useState("");
     const [expense, setExpense] = useState("");
 
@@ -29,14 +44,16 @@ export function Pocket_book() {
 
     const fetchBalance = async () => {
         try {
-            await axios.get(config.api_path + "/transactions/balance",
+            await axios.get(config.api_path + "/transactions",
                 {
                     headers: {
                         Authorization: Cookies.get('token')
                     }
                 }).then(res => {
                     if (res.status === 200) {
-                        setRemain(res.data.balance);
+                        setRemain(res.data.total_amount);
+                        setWallet(res.data.transactions);
+                        console.log(res.data);
                     }
                 });
         } catch (e: unknown) {
@@ -201,7 +218,7 @@ export function Pocket_book() {
                         {/* ปุ่มกระเป๋าทั้งหมด */}
                         <button className="text-xs text-[#342A0F] font-normal" onClick={() => setIsPopuppocketOpen(true)} >ทั้งหมด <span>&gt;</span></button>
                         {/* Popup กระเป๋าทั้งหมด */}
-                        <WalletPopup isOpen={isPopuppocketOpen} onClose={() => setIsPopuppocketOpen(false)} />
+                        <WalletPopup isOpen={isPopuppocketOpen} onClose={() => setIsPopuppocketOpen(false)} skibidi={wallet} />
 
 
                     </div>
