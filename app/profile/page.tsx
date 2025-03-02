@@ -52,7 +52,7 @@ export default function Profile() {
                     </div>
                 </div>
                 <a
-                    href="/profile/changPassword"
+                    href="/profile/changePassword"
                     className="flex items-center text-[#342A0F] bg-[#F6F4EC] border-[#8D6E63]/[12%] border-2 rounded-[30px] text-center mt-5 w-[90vw] sm:w-[90vw] md:max-w-[60vw] h-[7vh] p-4 gap-4">
                     <LockIcon className="ml-2" />
                     <p className="text-[0.9rem] md:text-[1rem] font-bold">เปลี่ยนรหัสผ่าน</p>

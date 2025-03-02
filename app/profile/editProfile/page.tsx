@@ -62,7 +62,7 @@ export default function EditProfile() {
                         timer: 2000,
                         showConfirmButton: true,
                     }).then(() => {
-                        router.push('/');
+                        router.push('/profile/editProfile');
                     });
                 }
             }).catch(err => {
