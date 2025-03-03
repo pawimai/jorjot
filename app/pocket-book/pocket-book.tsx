@@ -27,7 +27,6 @@ interface Transaction {
 export function Pocket_book() {
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const [isPopuppocketOpen, setIsPopuppocketOpen] = useState(false);
-    const [remain, setRemain] = useState("");
     const [wallet, setWallet] = useState<Transaction[]>([]);
     const [balance, setBalance] = useState(0);
 
