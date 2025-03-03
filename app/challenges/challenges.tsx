@@ -58,6 +58,7 @@ export default function Challenges() {
                         showConfirmButton: true,
                     })
                     setChallengeStarted(true);
+                    setNowtarget(monthlyTarget)
                 } else {
                     console.error("สร้างชาเลนจ์ไม่สำเร็จ!");
                     Swal.fire({
