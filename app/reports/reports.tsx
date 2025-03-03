@@ -69,7 +69,7 @@ export default function Reports() {
                 <Select
                     value={dropdown}
                     onChange={(e) => setDropdown(e.target.value)}
-                    className="w-[25vw] h-[4vh] text-[0.8rem] font-bold border-2 border-[#342A0F] text-[#342A0F] rounded-[50px]"
+                    className="w-[25vw] h-[4vh] text-[0.8rem] font-bold border-2 border-[#342A0F] text-[#342A0F] rounded-[50px] w-auto"
                 >
                     <MenuItem value="month">เดือน</MenuItem>
                     <MenuItem value="year">ปี</MenuItem>
