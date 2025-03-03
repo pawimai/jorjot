@@ -147,7 +147,7 @@ export default function Popup({ isOpen, onClose }: PopupProps) {
                 ? "bg-[#4C3228] text-[#FAF9F6]"
                 : "bg-[#4C3228]/[12%] text-[#342A0F]"
                 }`}
-              onClick={() => setSelectedType("รายจ่าย")}
+              onClick={() => setSelectedType("รายรับ")}
             >
               รายรับ
             </button>
