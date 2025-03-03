@@ -41,9 +41,9 @@ export default function Nav() {
             {/* เมนูด้านขวา */}
             <div className="flex space-x-3 items-end">
                 {/* ไอคอนปฏิทิน */}
-                <Link href={"/"} className="text-[#FCDD45]">
+                <div className="text-[#FCDD45]">
                     <InsertInvitationIcon fontSize="large" />
-                </Link>
+                </div>
 
                 {/* โปรไฟล์ */}
                 <Link href={"/profile"}>
