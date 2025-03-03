@@ -37,7 +37,7 @@ export default function EditProfile() {
     ];
 
     const [newName, setnewName] = useState("");
-    const [profileImage, setProfileImage] = useState("/profile1.jpg");
+    const [profileImage, setProfileImage] = useState("/profile1.svg");
 
     const changename = async (e: React.FormEvent) => {
         e.preventDefault();

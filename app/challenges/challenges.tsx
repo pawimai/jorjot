@@ -5,7 +5,6 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import config from "../config";
 import Cookies from "js-cookie";
-import { useRouter } from 'next/navigation';
 import Swal from "sweetalert2";
 
 export default function Challenges() {
@@ -84,6 +83,30 @@ export default function Challenges() {
         }
     };
 
+    const [startDate, setstartDate] = useState("");
+    const [endDate, setendDate] = useState("");
+
+    const fetchDate = async () => {
+        try {
+            const response = await axios.get(config.api_path + "/challenges/date", {
+                headers: {
+                    Authorization: Cookies.get('token')
+                }
+            });
+
+            if (response.status === 200) {
+                setstartDate(response.data.startDate);
+                setendDate(response.data.endDate);
+            }
+        } catch (error) {
+            console.error("Error fetching date:", error);
+        }
+    };
+
+    useEffect(() => {
+        fetchDate();
+    }, []);
+
     return (
         <div className="flex flex-col justify-center items-center mx-auto pb-[13vh] overflow-y-auto max-h-[calc(100vh-80px)]">
             {/* กล่องแรก */}
@@ -111,10 +134,10 @@ export default function Challenges() {
                 <div className="flex flex-col px-3 h-[20vh] w-[90%] sm:w-[90%] md:max-w-[90%] bg-[#FFF1AC] rounded-[13px] text-center text-[0.8rem] mt-4 flex justify-center items-center">
                     <form className="pb-2 w-full" onSubmit={monthlytarget}>
                         <label htmlFor="password" className="block mb-2 font-bold text-[#342A0F] text-left">
-                            เก็บเงินเดือนละ
+                            เก็บเงินเดือนละ (บาท)
                         </label>
                         <input
-                            type="text"
+                            type="number"
                             name="password"
                             id="password"
                             placeholder="500"
@@ -126,7 +149,7 @@ export default function Challenges() {
 
                         <div className="w-full text-left">
                             <p>ระยะเวลา</p>
-                            <p>00/00/00 - 00/00/00</p>
+                            <p>{startDate} - {endDate}</p>
                         </div>
 
                         {/* ปุ่มสีเหลือง */}
@@ -170,20 +193,20 @@ export default function Challenges() {
 
         //         <div className="flex flex-col justify-center items-center pb-1" >
         //             <div className="flex px-3 h-[6vh] w-[95%] sm:w-[95%] md:max-w-[95%] bg-[#F6F4EC] rounded-[13px] justify-between mt-4 flex justify-center items-center">
-        //                 <p className="text-[0.8rem]" >ธันวาคม</p>
-        //                 <p className="text-[0.6rem]" >ยอดเงินคงเหลือ 300.00 ฿</p>
+        //                 <p className="text-[0.8rem]" >เมษายน</p>
+        //                 <p className="text-[0.6rem]" >ยอดเงินคงเหลือ - ฿</p>
         //             </div>
         //         </div>
         //         <div className="flex flex-col justify-center items-center pb-1" >
         //             <div className="flex px-3 h-[6vh] w-[95%] sm:w-[95%] md:max-w-[95%] bg-[#F6F4EC] rounded-[13px] justify-between mt-4 flex justify-center items-center">
-        //                 <p className="text-[0.8rem]" >ธันวาคม</p>
-        //                 <p className="text-[0.6rem]" >ยอดเงินคงเหลือ 300.00 ฿</p>
+        //                 <p className="text-[0.8rem]" >พฤกษาคม</p>
+        //                 <p className="text-[0.6rem]" >ยอดเงินคงเหลือ - ฿</p>
         //             </div>
         //         </div>
         //         <div className="flex flex-col justify-center items-center" >
         //             <div className="flex px-3 h-[6vh] w-[95%] sm:w-[95%] md:max-w-[95%] bg-[#F6F4EC] rounded-[13px] justify-between mt-4 flex justify-center items-center">
-        //                 <p className="text-[0.8rem]" >ธันวาคม</p>
-        //                 <p className="text-[0.6rem]" >ยอดเงินคงเหลือ 300.00 ฿</p>
+        //                 <p className="text-[0.8rem]" >มิถุนายน</p>
+        //                 <p className="text-[0.6rem]" >ยอดเงินคงเหลือ - ฿</p>
         //             </div>
         //         </div>
         //         <div className="w-full text-left text-[0.7rem] mt-4 ml-3">

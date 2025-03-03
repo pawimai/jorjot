@@ -8,7 +8,7 @@ import config from "../config";
 import Cookies from "js-cookie";
 
 export default function Nav() {
-    const [profileImage, setProfileImage] = useState("/defaultProfile.jpg"); // Default profile image
+    const [profileImage, setProfileImage] = useState("/profile1.svg"); // Default profile image
 
     useEffect(() => {
         const fetchProfileImage = async () => {
