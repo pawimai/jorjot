@@ -36,6 +36,32 @@ export default function Reports() {
 
     const [month, setMonth] = useState(months[0]);
 
+    const [category, setCategory] = useState("");
+    const [level, setLevel] = useState("");
+
+    /*const fetchCategory = async () => {
+        try {
+            const response = await axios.get(config.api_path + "/", {
+                headers: {
+                    Authorization: Cookies.get('token')
+                }
+            });
+
+            if (response.status === 200) {
+                setProfileImage(response.data.profileImage); // Update state with fetched profile image
+                setName(response.data.name);
+                setLevel(response.data.level);
+            }
+        } catch (error) {
+            console.error("Error fetching profile image:", error);
+        }
+    };
+
+    useEffect(() => {
+        fetchCategory();
+    }, []);*/
+
+
     return ( 
         <div className="mx-auto pb-[13vh] overflow-y-auto max-h-[calc(100vh-80px)] bg-[#FAF9F6]">
             {/* Dropdown + Summary */}
@@ -126,9 +152,6 @@ export default function Reports() {
                     ))}
                 </tbody>
             </table>
-
-
-
         </div>
     );
 }

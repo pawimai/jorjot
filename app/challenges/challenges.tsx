@@ -167,7 +167,7 @@ export default function Challenges() {
                     </div>
                     <div className="w-full text-left text-[0.7rem] mt-4 ml-3">
                         <p>ระยะเวลา</p>
-                        <p>00/00/00 - 00/00/00</p>
+                        <p>{startDate} - {endDate}</p>
                     </div>
 
                 </div>
@@ -183,8 +183,8 @@ export default function Challenges() {
                             className="rounded-full"
                         />
                         <div>
-                            <p className="text-[0.8rem]">เบบี้ลิงจ๋อ</p>
-                            <p className="text-[0.6rem]">ระดับเริ่มต้น</p>
+                            <p className="text-[0.8rem]">{level}</p>
+                            <p className="text-[0.6rem]">ร{levelNum}</p>
                         </div>
                     </div>
 
