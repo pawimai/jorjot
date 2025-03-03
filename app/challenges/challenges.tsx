@@ -111,32 +111,47 @@ export default function Challenges() {
         fetchChallengeStatus();
     }, []);
 
-    const fetchChallengeStatus = async () => {
-        try {
-            await axios.get(config.api_path + "/challenges/status", {
-                headers: {
-                    Authorization: Cookies.get('token')
-                }
-            }).then(res => {
-                if (res.data.message === "Challenge in progress") {
-                    setChallengeStarted(true);
-                }
-            });
-        } catch (e: unknown) {
-                    let errorMessage = 'An unknown error occurred';
-                    if (e instanceof Error) {
-                        errorMessage = e.message;
-                    } else if (typeof e === 'string') {
-                        errorMessage = e;
+    const [nowtarget, setNowtarget] = useState("");
+
+const fetchChallengeStatus = async () => {
+    try {
+        const res = await axios.get(config.api_path + "/challenges/status", {
+            headers: {
+                Authorization: Cookies.get('token')
+            }
+        });
+
+        if (res.data.message === "Challenge in progress") {
+            setChallengeStarted(true);
+
+            try {
+                const response = await axios.get(config.api_path + "/challenges/target", {
+                    headers: {
+                        Authorization: Cookies.get('token')
                     }
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'An Error Occurred',
-                        text: errorMessage,
-                    });
-        
+                });
+
+                if (response.status === 200) {
+                    setNowtarget(response.data.monthlyTarget);
                 }
+            } catch (error) {
+                console.error("Error fetching target:", error);
+            }
+        }
+    } catch (e: unknown) {
+        let errorMessage = 'An unknown error occurred';
+        if (e instanceof Error) {
+            errorMessage = e.message;
+        } else if (typeof e === 'string') {
+            errorMessage = e;
+        }
+        Swal.fire({
+            icon: 'error',
+            title: 'An Error Occurred',
+            text: errorMessage,
+        });
     }
+};
 
     if (challengeStarted) {
         return (
@@ -144,7 +159,7 @@ export default function Challenges() {
                 <div className="flex flex-col text-[#342A0F] font-bold h-auto w-[85vw] sm:w-[50vw] md:max-w-[50vw] bg-[#FFF1AC] border-[#4C3228] border-2 rounded-[30px] text-center mt-8 p-5">
                     <div className="flex justify-between items-end w-full">
                         <p className="text-[0.8rem] text-left">ชาเลนจ์ 3 เดือน</p>
-                        <p className="text-[0.6rem] text-right font-semibold">เก็บเงินเดือนละ 500 บาท</p>
+                        <p className="text-[0.6rem] text-right font-semibold">เก็บเงินเดือนละ {nowtarget} บาท</p>
                     </div>
 
                     <div className="flex flex-col justify-center items-center pb-1" >
@@ -184,7 +199,7 @@ export default function Challenges() {
                         />
                         <div>
                             <p className="text-[0.8rem]">{level}</p>
-                            <p className="text-[0.6rem]">ร{levelNum}</p>
+                            <p className="text-[0.6rem]">{levelNum}</p>
                         </div>
                     </div>
 
