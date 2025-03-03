@@ -10,7 +10,6 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import config from "../config";
 import Cookies from "js-cookie";
-import Swal from "sweetalert2";
 
 export default function Profile() {
     const router = useRouter();
@@ -24,7 +23,7 @@ export default function Profile() {
         }
     };
     
-    const [profileImage, setProfileImage] = useState("/defaultProfile.jpg"); // Default profile image
+    const [profileImage, setProfileImage] = useState("/profile1.svg");
     const [name, setName] = useState("");
     const [level, setLevel] = useState("");
 

@@ -5,10 +5,84 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import config from "../config";
 import Cookies from "js-cookie";
+import { useRouter } from 'next/navigation';
+import Swal from "sweetalert2";
 
 export default function Challenges() {
 
+    const [level, setLevel] = useState("");
+    const [levelNum, setLevelNum] = useState("");
 
+    const fetchLevel = async () => {
+        try {
+            const response = await axios.get(config.api_path + "/auth/profile", {
+                headers: {
+                    Authorization: Cookies.get('token')
+                }
+            });
+
+            if (response.status === 200) {
+                setLevel(response.data.level);
+                setLevelNum(response.data.levelNum);
+            }
+        } catch (error) {
+            console.error("Error fetching level:", error);
+        }
+    };
+
+    useEffect(() => {
+        fetchLevel();
+    }, []);
+
+    const [monthlyTarget, setTarget] = useState("");
+
+    const monthlytarget = async (e: React.FormEvent) => {
+        e.preventDefault();
+        try {
+            await axios.post(config.api_path + "/challenges", {
+                monthlyTarget
+            }, {    headers: {
+                    Authorization: Cookies.get('token')
+                }
+            }).then(res => {
+                if (res.status === 200) {
+                    const data = res.data;
+                    console.log("Challenge started!", data);
+
+                    // Store token in cookies
+                    Cookies.set('token', data.token); // Expires in 7 days
+
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'เริ่มชาเลนจ์!',
+                        text: 'สำเร็จชาเลนจ์เพื่อเลื่อนขั้น',
+                        timer: 2000,
+                        showConfirmButton: true,
+                    })
+                } else {
+                    console.error("สร้างชาเลนจ์ไม่สำเร็จ!");
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'สร้างชาเลนจ์ไม่สำเร็จ!',
+                        text: 'error',
+                        showConfirmButton: true,
+                    });
+                }
+            })
+        } catch (e) {
+            let errorMessage = 'An unknown error occurred';
+            if (e instanceof Error) {
+                errorMessage = e.message;
+            } else if (typeof e === 'string') {
+                errorMessage = e;
+            }
+            Swal.fire({
+                icon: 'error',
+                title: 'An Error Occurred',
+                text: errorMessage,
+            });
+        }
+    };
 
     return (
         <div className="flex flex-col justify-center items-center mx-auto pb-[13vh] overflow-y-auto max-h-[calc(100vh-80px)]">
@@ -22,8 +96,8 @@ export default function Challenges() {
                     className="rounded-full"
                 />
                 <div>
-                    <p className="text-[0.8rem]">เบบี้ลิงจ๋อ</p>
-                    <p className="text-[0.6rem]">ระดับเริ่มต้น</p>
+                    <p className="text-[0.8rem]">{level}</p>
+                    <p className="text-[0.6rem]">{levelNum}</p>
                 </div>
             </div>
 
@@ -35,31 +109,35 @@ export default function Challenges() {
 
                 {/* กล่องสีเหลือง */}
                 <div className="flex flex-col px-3 h-[20vh] w-[90%] sm:w-[90%] md:max-w-[90%] bg-[#FFF1AC] rounded-[13px] text-center text-[0.8rem] mt-4 flex justify-center items-center">
-                    <form className="pb-2 w-full">
+                    <form className="pb-2 w-full" onSubmit={monthlytarget}>
                         <label htmlFor="password" className="block mb-2 font-bold text-[#342A0F] text-left">
                             เก็บเงินเดือนละ
                         </label>
                         <input
-                            type="password"
+                            type="text"
                             name="password"
                             id="password"
-                            placeholder="฿500.00"
+                            placeholder="500"
                             className="bg-[#FFFFFF] border-2 border-[#342A0F] text-[#513F0B] rounded-[30px] block w-full py-1 px-4 text-[11px]"
                             required
+                            value={monthlyTarget}
+                            onChange={(e) => setTarget(e.target.value)}
                         />
-                    </form>
 
-                    <div className="w-full text-left">
-                        <p>ระยะเวลา</p>
-                        <p>00/00/00 - 00/00/00</p>
-                    </div>
+                        <div className="w-full text-left">
+                            <p>ระยะเวลา</p>
+                            <p>00/00/00 - 00/00/00</p>
+                        </div>
+
+                        {/* ปุ่มสีเหลือง */}
+                        <button className="mt-4 bg-[#FCDD45] text-[#342A0F] text-[0.8rem] font-bold py-2 px-4 w-[90%] sm:w-[90%] md:max-w-[90%] rounded-[30px]"
+                            type="submit"
+                            onClick={monthlytarget}>
+                            เริ่มชาเลนจ์
+                        </button>
+                    </form>
                 </div>
 
-
-                {/* ปุ่มสีเหลือง */}
-                <button className="mt-4 bg-[#FCDD45] text-[#342A0F] text-[0.8rem] font-bold py-2 px-4 w-[90%] sm:w-[90%] md:max-w-[90%] rounded-[30px]">
-                    เริ่มชาเลนจ์
-                </button>
             </div>
 
             <p className="text-[0.8rem] mt-2 font-bold text-[#342A0F]" >สำเร็จชาเลนจ์เพื่อเลื่อนขั้นเป็น</p>
@@ -75,7 +153,7 @@ export default function Challenges() {
                 />
                 <div>
                     <p className="text-[0.8rem]">ลิงจ๋อหัดเดิน</p>
-                    <p className="text-[0.6rem] text-left">ระดับที่ 2</p>
+                    <p className="text-[0.6rem] text-left">ระดับ 2</p>
                 </div>
             </div>
 
