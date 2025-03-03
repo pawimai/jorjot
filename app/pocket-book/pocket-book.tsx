@@ -63,18 +63,6 @@ export function Pocket_book() {
         }
     }
 
-    const handleTest = async () => {
-        await axios.get(config.api_path + "/transactions",
-            {
-                headers: {
-                    Authorization: Cookies.get('token')
-                }
-            }).then(res => {
-                setWallet(res.data.data)
-                console.log(res.data);
-            });
-    }
-
     return (
         <>
             <div className="p-4 bg-[#FAF9F6] flex flex-col gap-4 items-center mx-auto pb-[13vh] overflow-y-auto max-h-[calc(100vh-80px)]">

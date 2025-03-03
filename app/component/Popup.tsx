@@ -74,6 +74,7 @@ export default function Popup({ isOpen, onClose }: PopupProps) {
         });
       }
     } catch (error) {
+      console.log(error)
       Swal.fire({
         icon: 'error',
         title: 'เกิดข้อผิดพลาด',

@@ -10,6 +10,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import config from "../config";
 import Cookies from "js-cookie";
+import Link from "next/link";
 
 export default function Profile() {
     const router = useRouter();
@@ -76,10 +77,10 @@ export default function Profile() {
                     <div className="flex flex-col ml-1 items-start flex-1">
                         <p className="text-[0.8rem] md:text-[1rem] font-bold">{name}</p>
                         <p className="text-[0.6rem] md:text-[0.9rem]">ระดับ {level}</p>
-                        <a className="mt-2 bg-[#FCDD45] text-[#342A0F] text-[0.7rem] font-bold w-[90%] h-[4vh] rounded-[30px] flex items-center justify-center"
+                        <Link className="mt-2 bg-[#FCDD45] text-[#342A0F] text-[0.7rem] font-bold w-[90%] h-[4vh] rounded-[30px] flex items-center justify-center"
                             href="/profile/editProfile" >
                             แก้ไขโปรไฟล์ของคุณ
-                        </a>
+                        </Link>
                     </div>
                 </div>
                 <a
@@ -94,10 +95,10 @@ export default function Profile() {
                     <InfoOutlinedIcon className="ml-2" />
                     <p className="text-[0.9rem] md:text-[1rem] font-bold">เกี่ยวกับเรา</p>
                 </a>
-                <a className="flex items-center text-[#342A0F] bg-[#F6F4EC] border-[#8D6E63]/[12%] border-2 rounded-[30px] text-center mt-3 w-[90vw] sm:w-[90vw] md:max-w-[60vw] h-[7vh] p-4 gap-4"
+                <Link className="flex items-center text-[#342A0F] bg-[#F6F4EC] border-[#8D6E63]/[12%] border-2 rounded-[30px] text-center mt-3 w-[90vw] sm:w-[90vw] md:max-w-[60vw] h-[7vh] p-4 gap-4"
                    href="/">
                     <LogoutOutlinedIcon className="ml-2 text-[#AB502D]" /><p className="text-[0.9rem] md:text-[1rem] font-bold" >ออกจากระบบ</p>
-                </a>
+                </Link>
             </div>
         </div>
     );

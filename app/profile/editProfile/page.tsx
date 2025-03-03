@@ -62,7 +62,6 @@ export default function EditProfile() {
                         }
                     }).then(res => {
                         if (res.status === 200) {
-                            const data = res.data;
                             Swal.fire({
                                 icon: 'success',
                                 title: 'เปลี่ยนชื่อสำเร็จ',
