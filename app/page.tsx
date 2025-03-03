@@ -24,7 +24,7 @@ export default function Login() {
           console.log("Login successful:", data);
           
           // Store token in cookies
-          Cookies.set('token', data.token); // Expires in 7 days
+          Cookies.set('token', data.token, { expires: 7 }); // Expires in 7 days
 
           Swal.fire({
             icon: 'success',

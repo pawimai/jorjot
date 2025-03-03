@@ -92,7 +92,7 @@ export default function Reports() {
     }));
 
     return (
-        <div className="mx-auto pb-[13vh] overflow-y-auto max-h-[calc(100vh-80px)] bg-[#FAF9F6]">
+        <div className="h-screen mx-auto pb-[13vh] overflow-y-auto max-h-[calc(100vh-80px)] bg-[#FAF9F6]">
             {/* Dropdown + Summary */}
             {/* <div className="flex justify-between items-center p-3 text-[#342A0F]">
                 <Select
