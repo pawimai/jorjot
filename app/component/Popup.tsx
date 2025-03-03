@@ -62,7 +62,7 @@ export default function Popup({ isOpen, onClose }: PopupProps) {
         }
       });
 
-      if (1) {
+      if (response.status === 200) {
         Swal.fire({
           icon: 'success',
           title: 'บันทึกสำเร็จ',
