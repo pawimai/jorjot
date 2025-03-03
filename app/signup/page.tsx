@@ -72,7 +72,7 @@ export default function Signup() {
                                 name="username"
                                 id="username"
                                 className="bg-[#FFFFFF] border-2 border-[#342A0F] text-[#513F0B] rounded-[30px] block w-full py-2 px-4 text-[11px]"
-                                placeholder="ชื่อบัญชี"
+                                placeholder="กรอกชื่อบัญชี"
                                 required
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
@@ -87,7 +87,7 @@ export default function Signup() {
                                 name="email"
                                 id="email"
                                 className="bg-[#FFFFFF] border-2 border-[#342A0F] text-[#513F0B] rounded-[30px] block w-full py-2 px-4 text-[11px]"
-                                placeholder="Email"
+                                placeholder="กรอกอีเมล"
                                 required
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
@@ -101,7 +101,7 @@ export default function Signup() {
                                 type="password"
                                 name="password"
                                 id="password"
-                                placeholder="*************"
+                                placeholder="กรอกรหัสผ่าน"
                                 className="bg-[#FFFFFF] border-2 border-[#342A0F] text-[#513F0B] rounded-[30px] block w-full py-2 px-4 text-[11px]"
                                 required
                                 value={password}
@@ -116,7 +116,7 @@ export default function Signup() {
                                 type="password"
                                 name="confirmPassword"
                                 id="confirmPassword"
-                                placeholder="*************"
+                                placeholder="กรอกยืนยันรหัสผ่าน"
                                 className="bg-[#FFFFFF] border-2 border-[#342A0F] text-[#513F0B] rounded-[30px] block w-full py-2 px-4 text-[11px]"
                                 required
                                 value={confirmPassword}
