@@ -170,7 +170,7 @@ export default function Popup({ isOpen, onClose }: PopupProps) {
         <div className="mt-4 mb-6">
           <div className="text-sm font-bold text-[#342A0F]">จำนวนเงิน (บาท)</div>
           <input
-            type="text"
+            type="number"
             className="w-full p-2 border rounded-md mt-1 text-md text-[#342A0F]"
             placeholder="฿ 0.00"
             value={amount}
