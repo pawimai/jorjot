@@ -3,13 +3,9 @@
 import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/navigation";
-import "swiper/css";
 import { useState, useEffect } from "react";
-import { MenuItem, Select } from "@mui/material";
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore from "swiper";
-import "swiper/css";
-import "swiper/css/navigation";
 import ArrowBackIosNewOutlinedIcon from "@mui/icons-material/ArrowBackIosNewOutlined";
 import { PieChart } from '@mui/x-charts/PieChart';
 import axios from "axios";
@@ -33,7 +29,6 @@ interface Transaction {
 }
 
 export default function Reports() {
-    const [dropdown, setDropdown] = useState("month");
     const [swiper, setSwiper] = useState<SwiperCore | null>(null);
     const [month, setMonth] = useState(months[0]);
     const [transactions, setTransactions] = useState<Transaction[]>([]);
@@ -93,34 +88,11 @@ export default function Reports() {
 
     return (
         <div className="h-screen mx-auto pb-[13vh] overflow-y-auto max-h-[calc(100vh-80px)] bg-[#FAF9F6]">
-            {/* Dropdown + Summary */}
-            {/* <div className="flex justify-between items-center p-3 text-[#342A0F]">
-                <Select
-                    value={dropdown}
-                    onChange={(e) => setDropdown(e.target.value)}
-                    className="w-[25vw] h-[4vh] text-[0.8rem] font-bold border-2 border-[#342A0F] text-[#342A0F] rounded-[50px] w-auto"
-                >
-                    <MenuItem value="month">เดือน</MenuItem>
-                    <MenuItem value="year">ปี</MenuItem>
-                    <MenuItem value="Category">หมวดหมู่</MenuItem>
-                </Select>
-                <div className="flex text-[0.6rem]">
-                    <div className="flex justify-center items-center text-[#342A0F] font-bold h-[4vh] w-[28vw] bg-[#F6F4EC] border-[#342A0F] border rounded-tl-[30px] rounded-bl-[30px] border-r-0 p-2 text-center">
-                        รายรับ <span className="text-[#AB502D]">&nbsp;0&nbsp;</span> บาท
-                    </div>
-                    <div className="flex justify-center items-center text-[#342A0F] font-bold h-[4vh] w-[28vw] bg-[#F6F4EC] border-[#342A0F] border rounded-tr-[30px] rounded-br-[30px] p-2 text-center"
-                        style={{ borderLeft: "2px dashed #AB502D" }}>
-                        รายจ่าย <span className="text-[#AB502D]">&nbsp;0&nbsp;</span> บาท
-                    </div>
-                </div>
-            </div> */}
-
             {/* Swiper for Month Selection */}
             <div className="relative flex p-2 w-full text-[#342A0F] flex justify-center items-center">
                 <button onClick={() => swiper?.slidePrev()}><ArrowBackIosNewOutlinedIcon /></button>
-                {/* Swiper */}
                 <Swiper
-                    onSwiper={setSwiper} // เซ็ตค่า swiper instance ลง state
+                    onSwiper={setSwiper}
                     spaceBetween={5}
                     slidesPerView={4}
                     slidesPerGroup={4}
