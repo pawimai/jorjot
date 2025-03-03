@@ -99,7 +99,7 @@ export function Pocket_book() {
                 <div className="relative w-full max-w-md bg-[#F6F4EC] rounded-[20px] p-4 pb-8 border border-[#4C3228]/[12%] shadow-sm">
                     <div className="flex justify-between items-center mb-2">
                         <div className="text-sm text-[#342A0F] font-bold">ธุรกรรม</div>
-                        <Link href={"/"} className="text-xs text-[#342A0F] font-normal">ทั้งหมด <span>&gt;</span></Link>
+                        <Link href={"/history"} className="text-xs text-[#342A0F] font-normal">ทั้งหมด <span>&gt;</span></Link>
                     </div>
 
                     {/* รายการ */}
