@@ -95,7 +95,7 @@ export default function WalletPopup({ isOpen, onClose }: PopupProps) {
                 </div>
                 <div>
                   <p className="text-gray-700 font-medium">{wallet.name}</p>
-                  <p className="text-gray-900 font-bold">{wallet.amount}</p>
+                  <p className="text-gray-900 font-bold">฿{wallet.amount}</p>
                 </div>
               </div>
             ))}
