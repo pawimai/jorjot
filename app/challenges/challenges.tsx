@@ -232,9 +232,9 @@ const fetchChallengeStatus = async () => {
                     </p>
 
                     {/* กล่องสีเหลือง */}
-                    <div className="flex flex-col px-3 h-[20vh] w-[90%] sm:w-[90%] md:max-w-[90%] bg-[#FFF1AC] rounded-[13px] text-center text-[0.8rem] mt-4 flex justify-center items-center">
+                    <div className="flex flex-col px-3 h-[70%] w-[90%] sm:w-[90%] md:max-w-[90%] bg-[#FFF1AC] rounded-[13px] text-center text-[0.8rem] mt-4 flex justify-center items-center">
                         <form className="pb-2 w-full" onSubmit={monthlytarget}>
-                            <label htmlFor="password" className="block mb-2 font-bold text-[#342A0F] text-left">
+                            <label htmlFor="password" className="block pt-3 mb-2 font-bold text-[#342A0F] text-left">
                                 เก็บเงินเดือนละ (บาท)
                             </label>
                             <input
