@@ -69,8 +69,9 @@ export default function Popup({ isOpen, onClose }: PopupProps) {
           text: 'ข้อมูลของคุณถูกบันทึกแล้ว!',
           timer: 2000,
           showConfirmButton: true,
+        }).then(() => {
+          window.location.reload();
         });
-        onClose();
       }
     } catch (error) {
       Swal.fire({

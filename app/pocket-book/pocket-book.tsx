@@ -13,6 +13,7 @@ import Swal from "sweetalert2";
 import axios from "axios";
 import config from "../config";
 import Cookies from "js-cookie";
+import Link from "next/link";
 
 interface Transaction {
     transaction_type: string;
@@ -99,7 +100,7 @@ export function Pocket_book() {
                 <div className="relative w-full max-w-md bg-[#F6F4EC] rounded-[20px] p-4 pb-8 border border-[#4C3228]/[12%] shadow-sm">
                     <div className="flex justify-between items-center mb-2">
                         <div className="text-sm text-[#342A0F] font-bold">ธุรกรรม</div>
-                        <div className="text-xs text-[#342A0F] font-normal">ทั้งหมด <span>&gt;</span></div>
+                        <Link href={"/"} className="text-xs text-[#342A0F] font-normal">ทั้งหมด <span>&gt;</span></Link>
                     </div>
 
                     {/* รายการ */}
