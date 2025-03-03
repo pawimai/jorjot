@@ -57,6 +57,7 @@ export default function Signup() {
 
     return (
         <div className="bg-gradient-to-b from-[#4C3228] to-[#FCDD45] min-h-screen flex flex-col items-center justify-center">
+            <div className="p-8 text-White text-2xl font-bold">จ๋อจด</div>
             <div className="w-[90vw] border-2 border-[#342A0F] rounded-[30px] max-w-md bg-[#F6F4EC] rounded-[30px] shadow">
                 <div className="p-10 space-y-4 md:space-y-6 sm:p-8">
                     <h1 className="text-xl text-center p-3 font-bold leading-tight tracking-tight text-[#342A0F] md:text-2xl">
