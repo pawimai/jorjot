@@ -50,9 +50,6 @@ export default function Challenges() {
                     const data = res.data;
                     console.log("Challenge started!", data);
 
-                    // Store token in cookies
-                    Cookies.set('token', data.token); // Expires in 7 days
-
                     Swal.fire({
                         icon: 'success',
                         title: 'เริ่มชาเลนจ์!',
