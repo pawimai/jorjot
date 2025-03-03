@@ -4,14 +4,18 @@ import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/navigation";
 import "swiper/css";
-import { useState } from "react";
-import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
+import { useState, useEffect } from "react";
 import { MenuItem, Select } from "@mui/material";
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore from "swiper";
 import "swiper/css";
 import "swiper/css/navigation";
 import ArrowBackIosNewOutlinedIcon from "@mui/icons-material/ArrowBackIosNewOutlined";
+import { PieChart } from '@mui/x-charts/PieChart';
+import axios from "axios";
+import config from "../config";
+import Cookies from "js-cookie";
+import Swal from "sweetalert2";
 
 const months = [
     "ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.",
@@ -19,50 +23,75 @@ const months = [
     "ก.ย.", "ต.ค.", "พ.ย.", "ธ.ค."
 ];
 
-const data = [
-    { date: "01/01", expense: 100 },
-    { date: "02/01", expense: 200 },
-    { date: "03/01", expense: 150 },
-    { date: "04/01", expense: 300 },
-    { date: "04/01", expense: 300 },
-    { date: "04/01", expense: 300 },
-    { date: "04/01", expense: 300 },
-];
+interface Transaction {
+    transaction_type: string;
+    amount: number;
+    category: string;
+    wallet: string;
+    date: string;
+    createdAt: string;
+}
 
 export default function Reports() {
     const [dropdown, setDropdown] = useState("month");
-
     const [swiper, setSwiper] = useState<SwiperCore | null>(null);
-
     const [month, setMonth] = useState(months[0]);
+    const [transactions, setTransactions] = useState<Transaction[]>([]);
+    const [categoryTotals, setCategoryTotals] = useState<{ [key: string]: number }>({});
 
-    const [category, setCategory] = useState("");
-    const [level, setLevel] = useState("");
-
-    /*const fetchCategory = async () => {
+    const fetchTransactions = async () => {
         try {
-            const response = await axios.get(config.api_path + "/", {
+            const response = await axios.get(config.api_path + "/transactions", {
                 headers: {
                     Authorization: Cookies.get('token')
                 }
             });
 
             if (response.status === 200) {
-                setProfileImage(response.data.profileImage); // Update state with fetched profile image
-                setName(response.data.name);
-                setLevel(response.data.level);
+                const transactions = response.data.data;
+                setTransactions(transactions);
+                calculateCategoryTotals(transactions, month);
             }
         } catch (error) {
-            console.error("Error fetching profile image:", error);
+            console.error("Error fetching transactions:", error);
+            Swal.fire({
+                icon: 'error',
+                title: 'An Error Occurred',
+                text: 'ไม่สามารถดึงข้อมูลได้ กรุณาลองใหม่อีกครั้ง',
+            });
         }
     };
 
+    const calculateCategoryTotals = (transactions: Transaction[], selectedMonth: string) => {
+        const filteredTransactions = transactions.filter(transaction => transaction.date.includes(selectedMonth));
+        const totals: { [key: string]: number } = {};
+        filteredTransactions.forEach((transaction: Transaction) => {
+            if (!totals[transaction.category]) {
+                totals[transaction.category] = 0;
+            }
+            if (transaction.transaction_type === "รายรับ") {
+                totals[transaction.category] += transaction.amount;
+            } else {
+                totals[transaction.category] -= transaction.amount;
+            }
+        });
+        setCategoryTotals(totals);
+    };
+
     useEffect(() => {
-        fetchCategory();
-    }, []);*/
+        fetchTransactions();
+    }, []);
 
+    useEffect(() => {
+        calculateCategoryTotals(transactions, month);
+    }, [month, transactions]);
 
-    return ( 
+    const pieChartData = Object.keys(categoryTotals).map(category => ({
+        label: category,
+        value: Math.abs(categoryTotals[category])
+    }));
+
+    return (
         <div className="mx-auto pb-[13vh] overflow-y-auto max-h-[calc(100vh-80px)] bg-[#FAF9F6]">
             {/* Dropdown + Summary */}
             {/* <div className="flex justify-between items-center p-3 text-[#342A0F]">
@@ -84,7 +113,6 @@ export default function Reports() {
                         รายจ่าย <span className="text-[#AB502D]">&nbsp;0&nbsp;</span> บาท
                     </div>
                 </div>
-
             </div> */}
 
             {/* Swiper for Month Selection */}
@@ -100,7 +128,6 @@ export default function Reports() {
                     className="w-full h-full"
                     onSlideChange={(swiper) => setMonth(months[swiper.activeIndex])}
                 >
-
                     {months.map((m) => (
                         <SwiperSlide key={m}>
                             <div
@@ -116,19 +143,23 @@ export default function Reports() {
                 <button onClick={() => swiper?.slideNext()} className="rotate-180">
                     <ArrowBackIosNewOutlinedIcon />
                 </button>
-
             </div>
 
             {/* Chart */}
-            <div className="flex items-center justify-center w-[90vw]" >
-                <ResponsiveContainer width="100%" height={200}>
-                    <LineChart data={data}>
-                        <XAxis dataKey="date" />
-                        <YAxis />
-                        <Tooltip />
-                        <Line type="monotone" dataKey="expense" stroke="#000" strokeWidth={2} dot={{ r: 5 }} />
-                    </LineChart>
-                </ResponsiveContainer>
+            <div className="flex items-center justify-center w-full">
+                <PieChart
+                    series={[
+                        {
+                            data: pieChartData,
+                            innerRadius: 50,
+                            outerRadius: 120,
+                        },
+                    ]}
+                    height={250}
+                    slotProps={{
+                        legend: { hidden: false },
+                    }}
+                />
             </div>
 
             {/* Table */}
@@ -136,7 +167,7 @@ export default function Reports() {
                 <thead>
                     <tr className="bg-gray-100 rounded-t-[30px]">
                         <th className="p-2 first:rounded-tl-[30px] last:rounded-tr-[30px] border-b-2 border-[#4C3228]">
-                            วันที่
+                            หมวดหมู่
                         </th>
                         <th className="p-2 first:rounded-tl-[30px] last:rounded-tr-[30px] border-b-2 border-[#4C3228]">
                             จำนวนเงิน
@@ -144,10 +175,12 @@ export default function Reports() {
                     </tr>
                 </thead>
                 <tbody>
-                    {[100, 100, 100, 100, 100, 100, 100, 100].map((amount, index) => (
+                    {Object.keys(categoryTotals).map((category, index) => (
                         <tr key={index} className={index % 2 === 0 ? "bg-yellow-100" : "bg-white"}>
-                            <td className="text-center p-2">00/00/00</td>
-                            <td className="text-center p-2">฿{amount}.00</td>
+                            <td className="text-center p-2">{category}</td>
+                            <td className={`text-center p-2 ${categoryTotals[category] >= 0 ? "text-[#07BE3E]" : "text-[#FF0000]"}`}>
+                                ฿{Math.abs(categoryTotals[category]).toFixed(2)}
+                            </td>
                         </tr>
                     ))}
                 </tbody>

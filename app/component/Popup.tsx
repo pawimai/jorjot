@@ -131,7 +131,7 @@ export default function Popup({ isOpen, onClose }: PopupProps) {
             value={selectedYear}
             onChange={(e) => setSelectedYear(parseInt(e.target.value))}
           >
-            {[2566, 2567, 2568].map((y) => (
+            {[2568].map((y) => (
               <option key={y} value={y}>{y}</option>
             ))}
           </select>

@@ -1,5 +1,5 @@
 const config = {
-    "api_path": "http://localhost:3000",
+    "api_path": "https://jorjot-backend.onrender.com",
 }
 
 export default config;
