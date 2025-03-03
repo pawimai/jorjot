@@ -8,41 +8,33 @@ import PaymentsIcon from '@mui/icons-material/Payments';
 import SavingsIcon from '@mui/icons-material/Savings';
 import AccountBalanceRoundedIcon from '@mui/icons-material/AccountBalanceRounded';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
+import QueryStatsRoundedIcon from '@mui/icons-material/QueryStatsRounded';
 import Swal from "sweetalert2";
 import axios from "axios";
 import config from "../config";
 import Cookies from "js-cookie";
-import { ClientPageRoot } from "next/dist/client/components/client-page";
 
-interface PopupProps {
-    skibidi: [{
-      amount: number;
-      category: string;
-      date: string;
-      transaction_type: string;
-      updatedAt: Date;
-    _id: string;
-    user: string;
-    createdAt: Date;
-    }];
-  }
+interface Transaction {
+    transaction_type: string;
+    amount: number;
+    category: string;
+    wallet: string;
+    date: string;
+    createdAt: string;
+}
 
 export function Pocket_book() {
-
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const [isPopuppocketOpen, setIsPopuppocketOpen] = useState(false);
     const [remain, setRemain] = useState("");
-    const [wallet, setWallet] = useState<PopupProps | undefined>();
-    const [income, setIncome] = useState("");
-    const [expense, setExpense] = useState("");
+    const [wallet, setWallet] = useState<Transaction[]>([]);
+    const [balance, setBalance] = useState(0);
 
-    useEffect(() => { fetchBalance(); }, []);
+    useEffect(() => {
+        fetchData();
+    }, []);
 
-    useEffect(() => { fetchincomeToday(); }, []);
-
-    useEffect(() => { fetchexpenseToday(); }, []);
-
-    const fetchBalance = async () => {
+    const fetchData = async () => {
         try {
             await axios.get(config.api_path + "/transactions",
                 {
@@ -50,12 +42,11 @@ export function Pocket_book() {
                         Authorization: Cookies.get('token')
                     }
                 }).then(res => {
-                    if (res.status === 200) {
-                        setRemain(res.data.total_amount);
-                        setWallet(res.data.transactions);
-                        console.log(res.data);
-                    }
-                });
+                    setWallet(res.data.data)
+                    setBalance(res.data.totalAmount)
+                }).catch(err => {
+                    throw err;
+                })
         } catch (e: unknown) {
             let errorMessage = 'An unknown error occurred';
             if (e instanceof Error) {
@@ -68,61 +59,20 @@ export function Pocket_book() {
                 title: 'An Error Occurred',
                 text: errorMessage,
             });
+
         }
     }
 
-    const fetchincomeToday = async () => {
-        try {
-            await axios.get(config.api_path + "/transactions/today",
-                {
-                    headers: {
-                        Authorization: Cookies.get('token')
-                    }
-                }).then(res => {
-                    if (res.status === 200) {
-                        setIncome(res.data.incomeToday);
-                    }
-                });
-        } catch (e: unknown) {
-            let errorMessage = 'An unknown error occurred';
-            if (e instanceof Error) {
-                errorMessage = e.message;
-            } else if (typeof e === 'string') {
-                errorMessage = e;
-            }
-            Swal.fire({
-                icon: 'error',
-                title: 'An Error Occurred',
-                text: errorMessage,
+    const handleTest = async () => {
+        await axios.get(config.api_path + "/transactions",
+            {
+                headers: {
+                    Authorization: Cookies.get('token')
+                }
+            }).then(res => {
+                setWallet(res.data.data)
+                console.log(res.data);
             });
-        }
-    }
-
-    const fetchexpenseToday = async () => {
-        try {
-            await axios.get(config.api_path + "/transactions/today",
-                {
-                    headers: {
-                        Authorization: Cookies.get('token')
-                    }
-                }).then(res => {
-                    if (res.status === 200) {
-                        setExpense(res.data.expenseToday);
-                    }
-                });
-        } catch (e: unknown) {
-            let errorMessage = 'An unknown error occurred';
-            if (e instanceof Error) {
-                errorMessage = e.message;
-            } else if (typeof e === 'string') {
-                errorMessage = e;
-            }
-            Swal.fire({
-                icon: 'error',
-                title: 'An Error Occurred',
-                text: errorMessage,
-            });
-        }
     }
 
     return (
@@ -131,11 +81,11 @@ export function Pocket_book() {
                 {/* ยอดคงเหลือ */}
                 <div className="bg-[#F6F4EC] rounded-[30px] p-4 pl-6 border border-[#4C3228]/[12%] w-full max-w-md shadow-sm">
                     <div className="text-[#342A0F] font-bold text-sm">ยอดคงเหลือ</div>
-                    <div className="text-xl font-bold text-[#342A0F]"> {remain} <span className="text-sm font-normal">บาท</span></div>
+                    <div className="text-xl font-bold text-[#342A0F]"> {balance} <span className="text-sm font-normal">บาท</span></div>
                 </div>
 
                 {/* รายรับ/รายจ่ายวันนี้ */}
-                <div className="flex items-center w-full text-xs max-w-md bg-[#F6F4EC] rounded-[20px] p-3 border border-[#4C3228]/[12%] justify-between shadow-sm">
+                {/* <div className="flex items-center w-full text-xs max-w-md bg-[#F6F4EC] rounded-[20px] p-3 border border-[#4C3228]/[12%] justify-between shadow-sm">
                     <div className="text-center w-1/2 border-r border-[#4C3228]/[12%]">
                         <div className="text-[#342A0F]">รายรับวันนี้</div>
                         <div className="text-[#07BE3E] font-bold">{income}</div>
@@ -144,7 +94,7 @@ export function Pocket_book() {
                         <div className="text-[#342A0F]">รายจ่ายวันนี้</div>
                         <div className="text-[#FF0000] font-bold">{expense}</div>
                     </div>
-                </div>
+                </div> */}
                 {/* ธุรกรรม */}
                 <div className="relative w-full max-w-md bg-[#F6F4EC] rounded-[20px] p-4 pb-8 border border-[#4C3228]/[12%] shadow-sm">
                     <div className="flex justify-between items-center mb-2">
@@ -154,50 +104,24 @@ export function Pocket_book() {
 
                     {/* รายการ */}
                     <div className="flex flex-col gap-3">
-                        {/* รายการล่าสุด */}
-                        <div className="flex items-center gap-3">
-                            <div className="w-11 h-11 flex items-center justify-center bg-[#FFF1AC] border border-[#4C3228]/[12%] rounded-[5px]">
-                                <PaymentsIcon className="text-[#FFDC2D] w-8 h-8" />
+                        {wallet && wallet.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()).slice(0,3).map((transaction, index) => (
+                            <div key={index} className="flex items-center gap-3">
+                                <div className={`w-11 h-11 flex items-center justify-center ${transaction.wallet === "เงินสด" ? "bg-[#FFF1AC]" : transaction.wallet === "บัตรเครดิต" ? "bg-[#FFC6C6]" : transaction.wallet === "บัญชีธนาคาร" ? "bg-[#CBEEBA]" : transaction.wallet === "เงินออม" ? "bg-[#C0E0FF]" : "bg-[#F8F0F2]"} border border-[#4C3228]/[12%] rounded-[5px]`}>
+                                    {transaction.wallet === "เงินสด" && <PaymentsIcon className="text-[#FFDC2D] w-8 h-8" />}
+                                    {transaction.wallet === "บัตรเครดิต" && <CreditCardRoundedIcon className="text-[#DA6A6A] w-8 h-8" />}
+                                    {transaction.wallet === "บัญชีธนาคาร" && <AccountBalanceRoundedIcon className="text-[#78C456] w-8 h-8" />}
+                                    {transaction.wallet === "เงินออม" && <SavingsIcon className="text-[#5CA3E8] w-8 h-8" />}
+                                    {transaction.wallet === "เงินลงทุน" && <QueryStatsRoundedIcon className="text-[#8A2BE2] w-6 h-6" />}
+                                </div>
+                                <div className="flex-1">
+                                    <div className="py-1 text-xs text-normal text-[#342A0F] font-bold">{transaction.category}</div>
+                                </div>
+                                <div className="text-right">
+                                    <div className={`text-xs ${transaction.transaction_type === "รายรับ" ? "text-[#07BE3E]" : "text-[#FF0000]"} font-bold`}>฿{transaction.amount.toFixed(2)}</div>
+                                    <div className="text-xs text-[#342A0F] font-normal">{transaction.date}</div>
+                                </div>
                             </div>
-                            <div className="flex-1">
-                                <div className="py-1 text-xs text-normal text-[#342A0F] font-bold">อาหาร</div>
-                                <div className="px-2 py-0.5 w-fit rounded-full text-xs text-white text-center border border-[#FF8F3F] bg-[#FF8F3F]">ข้าวผัด</div>
-                            </div>
-                            <div className="text-right">
-                                <div className="text-xs text-[#FF0000] font-bold">฿100.00</div>
-                                <div className="text-xs text-[#342A0F] font-normal">8 มี.ค 2568</div>
-                            </div>
-                        </div>
-
-                        {/* รายการล่าสุด */}
-                        <div className="flex items-center gap-3">
-                            <div className="w-11 h-11 flex items-center justify-center bg-[#C0E0FF] border border-[#4C3228]/[12%] rounded-[5px]">
-                                <SavingsIcon className="text-[#5CA3E8] w-8 h-8" />
-                            </div>
-                            <div className="flex-1">
-                                <div className="py-1 text-xs text-normal text-[#342A0F] font-bold">อาหาร</div>
-                                <div className="px-2 py-0.5 w-fit rounded-full text-xs text-white text-center border border-[#FF8F3F] bg-[#FF8F3F]">ข้าวผัด</div>
-                            </div>
-                            <div className="text-right">
-                                <div className="text-xs text-[#FF0000] font-bold">฿100.00</div>
-                                <div className="text-xs text-[#342A0F] font-normal">8 มี.ค 2568</div>
-                            </div>
-                        </div>
-
-                        {/* รายการล่าสุด */}
-                        <div className="flex items-center gap-3">
-                            <div className="w-11 h-11 flex items-center justify-center bg-[#CBEEBA] border border-[#4C3228]/[12%] rounded-[5px]">
-                                <AccountBalanceRoundedIcon className="text-[#78C456] w-8 h-8" />
-                            </div>
-                            <div className="flex-1">
-                                <div className="p-1 text-xs text-normal text-[#342A0F] font-bold">อาหาร</div>
-                                <div className="px-2 py-0.5 w-fit rounded-full text-xs text-white text-center border border-[#FF8F3F] bg-[#FF8F3F]">ข้าวผัด</div>
-                            </div>
-                            <div className="text-right">
-                                <div className="text-xs text-[#FF0000] font-bold">฿100.00</div>
-                                <div className="text-xs text-[#342A0F] font-normal">8 มี.ค 2568</div>
-                            </div>
-                        </div>
+                        ))}
                     </div>
 
                     {/* ปุ่มเพิ่ม */}
@@ -206,7 +130,6 @@ export function Pocket_book() {
                         <AddCircleIcon className="text-[#4C3228] w-14 h-14 rounded-full" />
                     </button>
                 </div>
-
 
                 {/* Popup บันทึก */}
                 <Popup isOpen={isPopupOpen} onClose={() => setIsPopupOpen(false)} />
@@ -218,8 +141,7 @@ export function Pocket_book() {
                         {/* ปุ่มกระเป๋าทั้งหมด */}
                         <button className="text-xs text-[#342A0F] font-normal" onClick={() => setIsPopuppocketOpen(true)} >ทั้งหมด <span>&gt;</span></button>
                         {/* Popup กระเป๋าทั้งหมด */}
-                        <WalletPopup isOpen={isPopuppocketOpen} onClose={() => setIsPopuppocketOpen(false)} skibidi={wallet} />
-
+                        <WalletPopup isOpen={isPopuppocketOpen} onClose={() => setIsPopuppocketOpen(false)} />
 
                     </div>
 
@@ -248,8 +170,6 @@ export function Pocket_book() {
                         </div>
                     </div>
                 </div>
-
-
             </div>
         </>
     )
