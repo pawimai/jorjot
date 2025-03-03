@@ -96,7 +96,7 @@ export default function Profile() {
                     <p className="text-[0.9rem] md:text-[1rem] font-bold">เกี่ยวกับเรา</p>
                 </a>
                 <Link className="flex items-center text-[#342A0F] bg-[#F6F4EC] border-[#8D6E63]/[12%] border-2 rounded-[30px] text-center mt-3 w-[90vw] sm:w-[90vw] md:max-w-[60vw] h-[7vh] p-4 gap-4"
-                   href="/">
+                   href="/" onClick={() => Cookies.remove('token')}>
                     <LogoutOutlinedIcon className="ml-2 text-[#AB502D]" /><p className="text-[0.9rem] md:text-[1rem] font-bold" >ออกจากระบบ</p>
                 </Link>
             </div>
