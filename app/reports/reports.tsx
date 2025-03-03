@@ -65,7 +65,7 @@ export default function Reports() {
     return ( 
         <div className="mx-auto pb-[13vh] overflow-y-auto max-h-[calc(100vh-80px)] bg-[#FAF9F6]">
             {/* Dropdown + Summary */}
-            <div className="flex justify-between items-center p-3 text-[#342A0F]">
+            {/* <div className="flex justify-between items-center p-3 text-[#342A0F]">
                 <Select
                     value={dropdown}
                     onChange={(e) => setDropdown(e.target.value)}
@@ -85,7 +85,7 @@ export default function Reports() {
                     </div>
                 </div>
 
-            </div>
+            </div> */}
 
             {/* Swiper for Month Selection */}
             <div className="relative flex p-2 w-full text-[#342A0F] flex justify-center items-center">
